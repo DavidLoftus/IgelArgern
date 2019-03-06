@@ -8,9 +8,7 @@ file(GLOB game_SRC
 )
 
 file(GLOB game_INCLUDE
-	"include/*.h"
+	"src/*.h"
 )
-
-include_directories("include")
 
 add_executable(IgelArgern ${game_SRC} ${game_INCLUDE})
