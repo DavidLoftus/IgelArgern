@@ -11,4 +11,6 @@ file(GLOB game_INCLUDE
 	"include/*.h"
 )
 
+include_directories("include")
+
 add_executable(IgelArgern ${game_SRC} ${game_INCLUDE})
