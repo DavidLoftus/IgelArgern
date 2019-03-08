@@ -10,7 +10,11 @@ typedef enum
     CYAN
 } color;
 
-typedef struct token_t token_t; /// TODO: no definition for token yet, add one and remove this
+typedef struct token_t
+{
+    int teamId;
+    
+} token_t;
 
 struct stack_node
 {
