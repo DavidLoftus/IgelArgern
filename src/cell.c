@@ -26,10 +26,6 @@ token_t* cell_pop_token(cell_t* cell)
 {
     // Should pop token from top of stack and return the token
     // fails if cell is empty
+
     return NULL;
 }
-
-
-
-
-
