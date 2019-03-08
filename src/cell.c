@@ -16,6 +16,10 @@ void cell_finit(cell_t* cell, cellflags flags)
 void cell_push_token(cell_t* cell, token_t* token)
 {
     // Should push tokenColor to top of cell's stack.
+    struct stack_node * node = malloc(sizeof(struct stack_node));
+    node->token = token;
+    node->next = cell->top;
+    cell->top = node;
 }
 
 token_t* cell_pop_token(cell_t* cell)
@@ -24,3 +28,8 @@ token_t* cell_pop_token(cell_t* cell)
     // fails if cell is empty
     return NULL;
 }
+
+
+
+
+
