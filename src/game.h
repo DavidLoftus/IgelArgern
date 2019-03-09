@@ -7,7 +7,7 @@ typedef struct player_t
     token_t tokens[4];
 } player_t;
 
-void player_init(game_t* game, int i);
+//void player_init(game_t* game, int i);
 
 typedef struct game_t
 {
