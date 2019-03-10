@@ -30,11 +30,15 @@ token_t* cell_pop_token(cell_t* cell)
 {
     // Should pop token from top of stack and return the token
     // fails if cell is empty
-    struct node*  = node ;
-    *cell = head->token;
-    node = node->next;
-    free(cell->top);
-    return NULL;
+    struct stack_node* node = cell->top;
+
+    token_t* token = node->token;
+
+    cell->top = node->next; // Remove node from list by setting next node to top
+
+    free(node); // Free removed node
+
+    return token;
 }
 bool cell_is_empty(const cell_t* cell)
 {
