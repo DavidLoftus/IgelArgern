@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 const char* readline(char* str, int n)
 {
@@ -94,6 +95,12 @@ void game_init(game_t* game)
     printf("Enter the number of players: ");
     scanf("%d", &game->numplayers);
     skipline();
+
+    if(game->numplayers > MAX_PLAYERS)
+    {
+        printf("Too many players, max is %d.\n", MAX_PLAYERS);
+        exit(1);
+    }
 
     for(int i = 0; i < game->numplayers; ++i)
     {
