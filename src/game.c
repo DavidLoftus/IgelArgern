@@ -107,3 +107,18 @@ void game_init(game_t* game)
         init_player(game, i);
     }
 }
+
+void game_drawboard(game_t* game)
+{
+    printf("/-----------\\\n");
+    for(int i = 0; i < NUM_ROWS; i++)
+    {
+        printf("| ");
+        for(int j = 0; j < NUM_COLUMNS; j++)
+        {
+            cell_print(&game->board[i][j]);
+        }
+        printf(" |\n");
+    }
+    printf("\\-----------/\n");
+}

@@ -8,4 +8,6 @@ int main(void)
 	
 	game_init(&game);
 
+	game_drawboard(&game);
+
 }

@@ -1,4 +1,5 @@
 #include "cell.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 void cell_init(cell_t* cell)
@@ -43,4 +44,9 @@ token_t* cell_pop_token(cell_t* cell)
 bool cell_is_empty(const cell_t* cell)
 {
     return cell == NULL ? 1 : 0;
+}
+
+void cell_print(const cell_t* cell)
+{
+    putchar(' '); // TODO: print top token if not empty
 }
