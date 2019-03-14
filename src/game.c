@@ -108,11 +108,11 @@ void game_init(game_t* game)
     }
 }
 
-void initialize_board(game->board)
+void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS])
 {
-    for (int i =0; i< 6; i++)
+    for (int i =0; i< NUM_ROWS; i++)
     {
-        for(int j =0; j < 9; j++)
+        for(int j =0; j <NUM_COLUMNS ; j++)
         {
             //creates an obstacle square at positions (0,3), (1,6), (2,4), (3,5), (4,2) and (5,7)
             if((i == 0 && j==3) || (i == 1 && j == 6) || (i ==2 && j ==4)

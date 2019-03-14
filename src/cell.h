@@ -1,5 +1,6 @@
 #include <stdbool.h>
-
+#define NUM_ROWS 6
+#define NUM_COLUMNS 9
 typedef enum
 {
     RED,
@@ -43,4 +44,4 @@ void cell_print(const cell_t* cell);
 bool cell_is_empty(const cell_t* cell);
 void cell_push_token(cell_t* cell, token_t* token);
 token_t* cell_pop_token(cell_t* cell);
-void initialize_board(game->board);
+void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS]);
