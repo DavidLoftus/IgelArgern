@@ -105,26 +105,6 @@ void place_tokens(game_t* game)
     }
 }
 
-void game_init(game_t* game)
-{
-    printf("Enter the number of players: ");
-    scanf("%d", &game->numplayers);
-    skipline();
-
-    if(game->numplayers > MAX_PLAYERS)
-    {
-        printf("Too many players, max is %d.\n", MAX_PLAYERS);
-        exit(1);
-    }
-
-    for(int i = 0; i < game->numplayers; ++i)
-    {
-        init_player(game, i);
-    }
-
-    initialize_board(game->board);
-}
-
 void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS])
 {
     for (int i = 0; i < NUM_ROWS; i++)
@@ -143,6 +123,26 @@ void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS])
             }
         }
     }
+}
+
+void game_init(game_t* game)
+{
+    printf("Enter the number of players: ");
+    scanf("%d", &game->numplayers);
+    skipline();
+
+    if(game->numplayers > MAX_PLAYERS)
+    {
+        printf("Too many players, max is %d.\n", MAX_PLAYERS);
+        exit(1);
+    }
+
+    for(int i = 0; i < game->numplayers; ++i)
+    {
+        init_player(game, i);
+    }
+
+    initialize_board(game->board);
 }
 
 void game_drawboard(game_t* game)
