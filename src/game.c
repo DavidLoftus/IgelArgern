@@ -108,6 +108,29 @@ void game_init(game_t* game)
     }
 }
 
+void initialize_board(game->board)
+{
+    for (int i =0; i< 6; i++)
+    {
+        for(int j =0; j < 9; j++)
+        {
+            //creates an obstacle square at positions (0,3), (1,6), (2,4), (3,5), (4,2) and (5,7)
+            if((i == 0 && j==3) || (i == 1 && j == 6) || (i ==2 && j ==4)
+                    || (i == 3 && j ==5) || (i==4 && j==2) || (i==5 && j==7))
+            {
+                cell_finit(&board[i][j], OBSTACLE);
+            }
+            else
+            {
+
+                cell_finit(&board[i][j], FINISH);
+
+            }
+
+        }
+    }
+}
+
 void game_drawboard(game_t* game)
 {
     printf("/-----------\\\n");

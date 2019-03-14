@@ -13,7 +13,7 @@ typedef enum
 typedef struct token_t
 {
     int teamId;
-    
+
 } token_t;
 
 struct stack_node
@@ -43,4 +43,4 @@ void cell_print(const cell_t* cell);
 bool cell_is_empty(const cell_t* cell);
 void cell_push_token(cell_t* cell, token_t* token);
 token_t* cell_pop_token(cell_t* cell);
-
+void initialize_board(game->board);
