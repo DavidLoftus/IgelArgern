@@ -21,5 +21,6 @@ typedef struct game_t
 void init_player(game_t* game, int id);
 
 void game_init(game_t* game);
-void game_drawboard(game_t* game);
+void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS]);
 
+void game_drawboard(game_t* game);
