@@ -43,10 +43,41 @@ token_t* cell_pop_token(cell_t* cell)
 }
 bool cell_is_empty(const cell_t* cell)
 {
-    return cell == NULL ? 1 : 0;
+    return cell->top == NULL;
+}
+
+char color_char(color col)
+{
+    switch(col)
+    {
+	case RED:
+		return 'R';
+	case GREEN:
+		return 'G';
+	case YELLOW:
+		return 'Y';
+	case BLUE:
+		return 'B';
+	case MAGENTA:
+		return 'M';
+	case CYAN:
+		return 'C';
+    }
 }
 
 void cell_print(const cell_t* cell)
 {
-    putchar(' '); // TODO: print top token if not empty
+    if( cell->flags & OBSTACLE /* && obstacle_is_blocking(cell) */ ) // TODO: only display obstacle char if it is still blocking movement
+    {
+        putchar('#');
+    }
+    else if(cell_is_empty(cell))
+    {
+        putchar(' ');
+    }
+    else
+    {
+        token_t* token = cell->top->token;
+        putchar(color_char(token->tokenColor));
+    }
 }

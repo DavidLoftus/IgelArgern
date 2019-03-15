@@ -13,7 +13,7 @@ typedef enum
 typedef struct token_t
 {
     int teamId;
-
+    color tokenColor;
 } token_t;
 
 struct stack_node
