@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <limits.h>
 
 const char* readline(char* str, int n)
 {
@@ -94,21 +95,48 @@ void place_token(game_t* game, int playerId, int tokenId)
 {
     // Should prompt user for the row they'd like to place their next token on
     // Should then perform checks to see if that location is a valid choice, otherwise loops
-    player_t* player = &game->players[playerId];
-    int index = 0;
-    printf("Enter row number to place your token: ");
-    scanf("%d", &index);
-    if(index >= 1 && index <= NUM_ROWS)
-    {
-        index--; // User enters number from 1-6 but we want our index to be 0-5
 
-        //code for placing token
-        cell_push_token(&game->board[index][0], &player->tokens[tokenId]);
-    }
-    else
+    int minheight = INT_MAX;
+    for(int i = 0; i < NUM_ROWS; ++i)
     {
-        printf("Invalid postion");
+        if((cell_is_empty(&game->board[i][0]) || game->board[i][0].top->token->teamId != playerId) && minheight > game->board[i][0].height)
+        {
+            minheight = game->board[i][0].height;
+        }
     }
+
+    player_t* player = &game->players[playerId];
+
+    printf("Player %d, which row do you want to place your token (0 - 5): ", playerId+1);
+
+    int row;
+    for(;;)
+    {
+        if(scanf("%d", &row) != 1)
+            continue;
+
+        if(row < 0 || row >= NUM_ROWS)
+        {
+            printf("Invalid row, try again: ");
+            continue;
+        }
+
+        if(!cell_is_empty(&game->board[row][0]) && game->board[row][0].top->token->teamId == playerId)
+        {
+            printf("You can't block yourself, try again: ");
+            continue;
+        }
+
+        if(game->board[row][0].height > minheight)
+        {
+            printf("That row is too high, try again: ");
+            continue;
+        }
+
+        break;
+    }
+
+    cell_push_token(&game->board[row][0], &player->tokens[tokenId]);
 }
 
 void place_tokens(game_t* game)
@@ -161,6 +189,7 @@ void game_init(game_t* game)
     }
 
     initialize_board(game->board);
+    place_tokens(game);
 }
 
 bool check_winner(game_t* game, int* pWinner)
