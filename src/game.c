@@ -107,7 +107,7 @@ void place_token(game_t* game, int playerId, int tokenId)
 
     player_t* player = &game->players[playerId];
 
-    printf("Player %d, which row do you want to place your token (0 - 5): ", playerId+1);
+    printf("%s, which row do you want to place your token (0 - 5): ", player->playerName);
 
     int row;
     for(;;)
