@@ -88,6 +88,12 @@ void init_player(game_t* game, int id)
             break;
         }
     }
+
+    for(int i = 0; i < 4; ++i)
+    {
+        player->tokens[i].teamId = id;
+        player->tokens[i].tokenColor = player->playerColor;
+    }
 }
 
 // Places a token
