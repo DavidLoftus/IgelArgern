@@ -19,5 +19,6 @@ typedef struct game_t
 } game_t;
 
 void game_init(game_t* game);
+void game_run(game_t* game);
 
 void game_drawboard(game_t* game);

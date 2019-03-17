@@ -162,6 +162,26 @@ void game_init(game_t* game)
     initialize_board(game->board);
 }
 
+bool check_winner(game_t* game, int* pWinner)
+{
+    // TODO: Check if all 4 tokens of a single color are at the final column
+    return false;
+}
+
+void game_run(game_t* game)
+{
+    int winner;
+    int player = 0;
+    while(!check_winner(game, &winner))
+    {
+        game_drawboard(game);
+
+        // TODO: Logic for a single move
+
+        player = player + 1 % game->numplayers; // Next player (loops back when overflows)
+    }
+}
+
 void game_drawboard(game_t* game)
 {
     printf("/-----------\\\n");
