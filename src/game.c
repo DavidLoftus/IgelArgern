@@ -107,7 +107,7 @@ void place_token(game_t* game, int playerId, int tokenId)
 
     player_t* player = &game->players[playerId];
 
-    printf("%s, which row do you want to place your token (0 - 5): ", player->playerName);
+    printf("%s, which row do you want to place your token (1 - 6): ", player->playerName);
 
     int row;
     for(;;)
@@ -115,11 +115,13 @@ void place_token(game_t* game, int playerId, int tokenId)
         if(scanf("%d", &row) != 1)
             continue;
 
-        if(row < 0 || row >= NUM_ROWS)
+        if(row < 1 || row > NUM_ROWS)
         {
             printf("Invalid row, try again: ");
             continue;
         }
+
+        row--; // 1-based index to 0-based
 
         if(!cell_is_empty(&game->board[row][0]) && game->board[row][0].top->token->teamId == playerId)
         {
