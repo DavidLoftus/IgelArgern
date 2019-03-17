@@ -8,12 +8,14 @@ void cell_init(cell_t* cell)
 {
     cell->flags = 0;
     cell->top = NULL;
+    cell->height = 0;
 }
 
 void cell_finit(cell_t* cell, cellflags flags)
 {
     cell->flags = flags;
     cell->top = NULL;
+    cell->height = 0;
 }
 
 void cell_push_token(cell_t* cell, token_t* token)
@@ -23,6 +25,8 @@ void cell_push_token(cell_t* cell, token_t* token)
     node->token = token;
     node->next = cell->top;
     cell->top = node;
+
+    cell->height++;
 }
 
 token_t* cell_pop_token(cell_t* cell)
@@ -38,6 +42,8 @@ token_t* cell_pop_token(cell_t* cell)
     cell->top = node->next; // Remove node from list by setting next node to top
 
     free(node); // Free removed node
+
+    cell->height--;
 
     return token;
 }
