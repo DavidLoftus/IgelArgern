@@ -33,6 +33,7 @@ void init_player(game_t* game, int id)
     for(;;)
     {
         readline(color, sizeof(color));
+        strupr(color);
 
         if(strcmp(color, "RED") == 0)
         {
