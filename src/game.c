@@ -88,7 +88,8 @@ void init_player(game_t* game, int id)
     }
 }
 
-void place_token(game_t* game, int id)
+// Places a token
+void place_token(game_t* game, int playerId, int tokenId)
 {
     // Should prompt user for the row they'd like to place their next token on
     // Should then perform checks to see if that location is a valid choice, otherwise loops
@@ -101,11 +102,12 @@ void place_token(game_t* game, int id)
 
 void place_tokens(game_t* game)
 {
-    for(int i = 0; i < 4; ++i)
+    for(int tokenId = 0; tokenId < 4; ++tokenId)
     {
-        for(int id = 0; id < game->numplayers; id++)
+        for(int playerId = 0; playerId < game->numplayers; playerId++)
         {
-            place_token(game, id);
+            game_drawboard(game);
+            place_token(game, playerId, tokenId);
         }
     }
 }
