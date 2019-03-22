@@ -93,17 +93,17 @@ void place_token(game_t* game, int playerId, int tokenId)
 {
     // Should prompt user for the row they'd like to place their next token on
     // Should then perform checks to see if that location is a valid choice, otherwise loops
-    int index = 0;
+   int index = 0;
     int *pindex = NULL;
 
     pindex = &index;
     printf("Enter row number to place your token: ");
     scanf("%d",pindex);
-    if(pindex>=1||pindex<=NUM_ROWS-1)
+    if(*pindex <= 1 || *pindex <= NUM_ROWS - 1)
     {
         //code for placing token
     }
-    else if(i >= NUM_ROWS-1)
+    else if(*pindex > NUM_ROWS-1)
     {
         printf("Invalid postion");
     }
