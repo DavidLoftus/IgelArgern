@@ -178,7 +178,7 @@ void game_run(game_t* game)
 
         // TODO: Logic for a single move
 
-        player = player + 1 % game->numplayers; // Next player (loops back when overflows)
+        player = (player + 1) % game->numplayers; // Next player (loops back when overflows)
 
         break; // TODO: remove this when game wont just infinite loop
     }
