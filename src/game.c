@@ -139,12 +139,6 @@ void place_token(game_t* game, int playerId, int tokenId)
 
         row--; // 1-based index to 0-based
 
-        if(!cell_is_empty(&game->board[row][0]) && game->board[row][0].top->token->teamId == playerId)
-        {
-            printf("You can't block yourself, try again: ");
-            continue;
-        }
-
         if(game->board[row][0].height > minheight)
         {
             printf("That row is too high, try again: ");
