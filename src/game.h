@@ -7,6 +7,12 @@ typedef struct player_t
     token_t tokens[4];
 } player_t;
 
+typedef enum
+PLACEMENT = 0;
+PLAY = 1;
+GAME_OVER = 2;
+} stages;
+
 #define NUM_ROWS 6
 #define NUM_COLUMNS 9
 #define MAX_PLAYERS 6
@@ -22,4 +28,4 @@ void game_init(game_t* game);
 void game_run(game_t* game);
 
 void game_drawboard(game_t* game);
-void moveToken(int startRow, int startCol, int endRow, intendCol);
+void moveToken(int startRow, int startCol, int endRow, int endCol);
