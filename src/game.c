@@ -94,8 +94,8 @@ void place_token(game_t* game, int playerId, int tokenId)
 {
     // Should prompt user for the row they'd like to place their next token on
     // Should then perform checks to see if that location is a valid choice, otherwise loops
+    player_t* player = &game->players[playerId];
     int index = 0;
-
     printf("Enter row number to place your token: ");
     scanf("%d", &index);
     if(index >= 1 && index <= NUM_ROWS)
@@ -103,6 +103,7 @@ void place_token(game_t* game, int playerId, int tokenId)
         index--; // User enters number from 1-6 but we want our index to be 0-5
 
         //code for placing token
+        cell_push_token(&game->board[index][0], &player->tokens[tokenId]);
     }
     else
     {
