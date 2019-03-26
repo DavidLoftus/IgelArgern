@@ -185,6 +185,22 @@ void game_run(game_t* game)
     }
 }
 
+void moveToken(int startRow, int startCol, int endRow, int endCol){
+    //make sure the token is allowed to be moved
+    if (cell_t board[startRow][startCol].cell_peek().isEnabled())
+    {
+        //Move the token from the old location to the new location
+        //TODO:
+
+
+        //Enable the top token of the starting location stack
+        if ( !cell_t board[startRow][startCol].isEmpty() )
+        {
+
+            cell_t board[startRow][startCol].cell_peek().setEnabled();
+        }
+    }
+
 void game_drawboard(game_t* game)
 {
     printf("/-----------\\\n");
@@ -198,4 +214,4 @@ void game_drawboard(game_t* game)
         printf(" |\n");
     }
     printf("\\-----------/\n");
-}
+}}

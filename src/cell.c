@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+bool enabled;
 void cell_init(cell_t* cell)
 {
     cell->flags = 0;
@@ -79,4 +80,10 @@ void cell_print(const cell_t* cell)
         token_t* token = cell->top->token;
         putchar(color_char(token->tokenColor));
     }
+}
+void setEnabled(bool enabledOption) {
+		enabled = enabledOption;
+	}
+	bool isEnabled() {
+		return enabled;
 }

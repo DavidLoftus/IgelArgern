@@ -43,3 +43,6 @@ void cell_print(const cell_t* cell);
 bool cell_is_empty(const cell_t* cell);
 void cell_push_token(cell_t* cell, token_t* token);
 token_t* cell_pop_token(cell_t* cell);
+token_t* cell_peek(const cell_t* cell);
+void setEnabled(bool enabledOption);
+bool isEnabled();
