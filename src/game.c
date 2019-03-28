@@ -206,15 +206,15 @@ void game_move_token_down(game_t* game, int row, int col)
 
 void game_drawboard(game_t* game)
 {
-    printf("/-----------\\\n");
+    printf("/---------\\\n");
     for(int i = 0; i < NUM_ROWS; i++)
     {
-        printf("| ");
+        printf("|");
         for(int j = 0; j < NUM_COLUMNS; j++)
         {
             cell_print(&game->board[i][j]);
         }
-        printf(" |\n");
+        printf("|\n");
     }
-    printf("\\-----------/\n");
+    printf("\\---------/\n");
 }
