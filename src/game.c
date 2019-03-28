@@ -187,20 +187,22 @@ void game_run(game_t* game)
 
 void game_move_token_forward(game_t* game, int row, int col)
 {
-    //make sure the token is allowed to be moved
-    if (cell_t board[startRow][startCol].cell_peek().isEnabled())
-    {
-        //Move the token from the old location to the new location
-        //TODO:
+    // TODO: implement
+    // Assert there is a token at game->board[row][col] (this won't be tested in release build if we write our code correctly)
+    // Assert that there is a cell in front of current cell (simple bounds check)
+    // 1. pop token from stack using cell_pop_token (provide pointer to cell e.g. &cell->board[row][col])
+    // 2. push that token to the cell in front (board[row][col+1])
+}
 
+void game_move_token_up(game_t* game, int row, int col)
+{
+    // Same as game_move_token_forward but for (row-1,col)
+}
 
-        //Enable the top token of the starting location stack
-        if ( !cell_t board[startRow][startCol].isEmpty() )
-        {
-
-            cell_t board[startRow][startCol].cell_peek().setEnabled();
-        }
-    }
+void game_move_token_down(game_t* game, int row, int col)
+{
+    // Same as game_move_token_forward but for (row+1,col)
+}
 
 void game_drawboard(game_t* game)
 {
@@ -215,4 +217,4 @@ void game_drawboard(game_t* game)
         printf(" |\n");
     }
     printf("\\-----------/\n");
-}}
+}
