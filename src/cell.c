@@ -81,9 +81,3 @@ void cell_print(const cell_t* cell)
         putchar(color_char(token->tokenColor));
     }
 }
-void setEnabled(bool enabledOption) {
-		enabled = enabledOption;
-	}
-	bool isEnabled() {
-		return enabled;
-}
