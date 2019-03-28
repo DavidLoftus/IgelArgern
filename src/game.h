@@ -29,7 +29,7 @@ void game_init(game_t* game);
 void game_run(game_t* game);
 
 void game_drawboard(game_t* game);
-void moveToken(int startRow, int startCol, int endRow, int endCol);
-void moveTokenUp(int startRow, int startCol);
-void moveTokenDown(int startRow, int startCol);
+void game_move_token_forward(game_t* game, int row, int col);
+void game_move_token_up(game_t* game, int row, int col);
+void game_move_token_down(game_t* game, int row, int col);
 

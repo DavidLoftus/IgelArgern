@@ -185,7 +185,8 @@ void game_run(game_t* game)
     }
 }
 
-void moveToken(int startRow, int startCol, int endRow, int endCol){
+void game_move_token_forward(game_t* game, int row, int col)
+{
     //make sure the token is allowed to be moved
     if (cell_t board[startRow][startCol].cell_peek().isEnabled())
     {
