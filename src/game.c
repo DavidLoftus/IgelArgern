@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <ctype.h>
 
 const char* readline(char* str, int n)
 {
@@ -17,6 +18,15 @@ const char* readline(char* str, int n)
 void skipline()
 {
     while(getchar() != '\n' && !feof(stdin));
+}
+
+char* string_upper(char* str)
+{
+	for(char* pStr = str; *pStr; ++pStr)
+	{
+		*pStr = toupper(*pStr);
+	}
+	return str;
 }
 
 void init_player(game_t* game, int id)
@@ -34,7 +44,7 @@ void init_player(game_t* game, int id)
     for(;;)
     {
         readline(color, sizeof(color));
-        strupr(color);
+        string_upper(color);
 
         if(strcmp(color, "RED") == 0)
         {
