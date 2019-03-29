@@ -239,7 +239,10 @@ void game_move_token_forward(game_t* game, int row, int col)
     // Assert that there is a cell in front of current cell (simple bounds check)
     // 1. pop token from stack using cell_pop_token (provide pointer to cell e.g. &cell->board[row][col])
     // 2. push that token to the cell in front (board[row][col+1])
-    //token_t* cell_pop_token()
+
+    token_t *token = cell_pop_token(&game->board[row][col]);
+    cell_push_token(&game->board[row][col+1],token);
+
 }
 
 void game_move_token_up(game_t* game, int row, int col)
