@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <ctype.h>
+#include <time.h>
 
 const char* readline(char* str, int n)
 {
@@ -230,13 +231,20 @@ void game_run(game_t* game)
 {
     int winner;
     int player = 0;
+    int playerId = 0;
     while(!check_winner(game, &winner))
     {
         game_drawboard(game);
 
         // TODO: Logic for a single move
+        player_t* player = &game->players[playerId];
 
-        player = (player + 1) % game->numplayers; // Next player (loops back when overflows)
+        int dice_roll = rand() % 6+1;
+
+        printf("%s rolled a %d\n", player->playerName, dice_roll);
+
+
+        playerId = (playerId + 1) % game->numplayers;
 
         break; // TODO: remove this when game wont just infinite loop
     }
