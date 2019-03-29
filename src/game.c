@@ -254,11 +254,15 @@ void game_move_token_forward(game_t* game, int row, int col)
 void game_move_token_up(game_t* game, int row, int col)
 {
     // Same as game_move_token_forward but for (row-1,col)
+    token_t *token = cell_pop_token(&game->board[row][col]);
+    cell_push_token(&game->board[row-1][col],token);
 }
 
 void game_move_token_down(game_t* game, int row, int col)
 {
     // Same as game_move_token_forward but for (row+1,col)
+    token_t *token = cell_pop_token(&game->board[row][col]);
+    cell_push_token(&game->board[row+1][col],token);
 }
 
 void game_drawboard(game_t* game)
