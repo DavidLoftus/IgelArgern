@@ -226,6 +226,25 @@ bool check_winner(game_t* game, int* pWinner)
     return false;
 }
 
+void sidestep_move(game_t* game, int playerId)
+{
+    printf("Would you like to make a sidestep move? (Only (Y)es or (N)o are acceptable) ");
+    char option = 0;
+    scanf(" %c", &option);
+    switch (option)
+    {
+    case 0 :
+        if (option == 'n' || option == 'N')
+            break;
+    case 1:
+        if (option == 'y' || option == 'Y')
+            printf("Please select the row and column of the token you would like to sidestep: ");
+        break;
+
+    }
+    int row;
+    int col;
+}
 
 void game_run(game_t* game)
 {
