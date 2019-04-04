@@ -188,6 +188,8 @@ void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS])
 
 void game_init(game_t* game)
 {
+    initscr();
+
     printf("Enter the number of players: ");
     scanf("%d", &game->numplayers);
     skipline();
@@ -295,6 +297,9 @@ void game_run(game_t* game)
 
         playerId = (playerId + 1) % game->numplayers;
     }
+
+    endwin();
+
 }
 
 void game_move_token_forward(game_t* game, int row, int col)
@@ -326,9 +331,19 @@ void game_move_token_down(game_t* game, int row, int col)
     cell_push_token(&game->board[row+1][col],token);
 }
 
+WINDOW* boardscr = NULL;
+
 void game_drawboard(game_t* game)
 {
-    printf("/---------\\\n");
+
+    if(boardscr == NULL)
+    {
+        boardscr = newwin(0, 0, NUM_ROWS + 2, NUM_COLUMNS + 2);
+    }
+
+    wclear(boardscr);
+    box(boardscr, 0, 0);
+
     for(int i = 0; i < NUM_ROWS; i++)
     {
         printf("|");
