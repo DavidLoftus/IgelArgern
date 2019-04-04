@@ -277,7 +277,6 @@ void forward_move(game_t* game, int playerId, int row)
 void game_run(game_t* game)
 {
     int winner;
-    int player = 0;
     int playerId = 0;
     while(!check_winner(game, &winner))
     {
@@ -290,10 +289,9 @@ void game_run(game_t* game)
 
         printf("%s rolled a %d\n", player->playerName, dice_roll);
 
+        forward_move(game, playerId, dice_roll-1);
 
         playerId = (playerId + 1) % game->numplayers;
-
-        break; // TODO: remove this when game wont just infinite loop
     }
 }
 
