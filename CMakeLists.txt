@@ -12,3 +12,7 @@ file(GLOB game_INCLUDE
 )
 
 add_executable(IgelArgern ${game_SRC} ${game_INCLUDE})
+
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+target_link_libraries(IgelArgern ${CURSES_LIBRARIES})

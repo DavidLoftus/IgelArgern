@@ -8,6 +8,8 @@
 #include <ctype.h>
 #include <time.h>
 
+#include <ncurses/curses.h>
+
 const char* readline(char* str, int n)
 {
     str = fgets(str, n, stdin);
