@@ -270,6 +270,8 @@ void forward_move(game_t* game, int playerId, int row)
         }
     }
 
+    game_move_token_forward(game, row, col-1);
+
 }
 
 void game_run(game_t* game)
