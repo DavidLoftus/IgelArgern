@@ -245,6 +245,33 @@ void sidestep_move(game_t* game, int playerId)
     int col;
 }
 
+void forward_move(game_t* game, int playerId, int row)
+{
+    printf("Pick the column of the token you would like to move forward (along row %d): ", row+1);
+
+    int col;
+    while(true)
+    {
+        if(scanf("%d", &col) == 1 && 1 <= col && col <= NUM_COLUMNS)
+        {
+            if(!cell_is_empty(&game->board[row][col-1]))
+            {
+                break;
+            }
+            else
+            {
+                printf("That cell is empty, try again: ");
+            }
+            
+        }
+        else
+        {
+            printf("Invalid input please enter a number from 1 to %d: ", NUM_COLUMNS);
+        }
+    }
+
+}
+
 void game_run(game_t* game)
 {
     int winner;
