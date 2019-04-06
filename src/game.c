@@ -250,7 +250,7 @@ void sidestep_move(game_t* game, int playerId)
         {
             printf("The cell is empty, try again: ");
         }
-        else if(&game->board[row-1][col-1]->teamId != playerId)
+        else if(cell_peek(&game->board[row-1][col-1])->teamId != playerId)
         {
             printf("You can only sidestep your own tokens. Try again: ");
         }
@@ -307,6 +307,7 @@ void game_run(game_t* game)
         int dice_roll = rand() % 6+1;
 
         printf("%s rolled a %d\n", player->playerName, dice_roll);
+          sidestep_move(game, playerId);
 
         forward_move(game, playerId, dice_roll-1);
 
