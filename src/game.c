@@ -116,7 +116,7 @@ void place_token(game_t* game, int playerId, int tokenId)
     int minheight = INT_MAX;
     for(int i = 0; i < NUM_ROWS; ++i)
     {
-        if((cell_is_empty(&game->board[i][0]) || game->board[i][0].top->token->teamId != playerId) && minheight > game->board[i][0].height)
+        if((cell_is_empty(&game->board[i][0]) || cell_peek(&game->board[i][0])->teamId != playerId) && minheight > game->board[i][0].height)
         {
             minheight = game->board[i][0].height;
         }
