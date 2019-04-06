@@ -234,17 +234,36 @@ void sidestep_move(game_t* game, int playerId)
     switch (option)
     {
     case 'N' :
-    printf("Continue to play");
-            break;
-    case 'Y' :
-            printf("Please select the row and column of the token you would like to sidestep: ");
+        printf("Continue to play");
         break;
+    case 'Y' :
+        printf("Please select the row and column of the token you would like to sidestep: ");
+        int row;
+        int col;
+        scanf("%d %d", &row, &col);
+
+        if (col > NUM_COLUMNS||row > NUM_ROWS|| row < 1 ||col < 1 )
+        {
+            printf("Try again.... the input given is invalid:");
+        }
+        else if(cell_is_empty(&game->board[row-1][col-1]))
+        {
+            printf("The cell is empty, try again: ");
+        }
+        else if(&game->board[row-1][col-1]->teamId != playerId)
+        {
+            printf("You can only sidestep your own tokens. Try again: ");
+        }
+        else
+        {
+
+
+            break;
+
+        }
 
     }
-    int row;
-    int col;
 }
-
 void forward_move(game_t* game, int playerId, int row)
 {
     printf("Pick the column of the token you would like to move forward (along row %d): ", row+1);
@@ -262,7 +281,7 @@ void forward_move(game_t* game, int playerId, int row)
             {
                 printf("That cell is empty, try again: ");
             }
-            
+
         }
         else
         {
