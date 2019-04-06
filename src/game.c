@@ -310,7 +310,7 @@ void game_run(game_t* game)
         int dice_roll = rand() % 6+1;
 
         printf("%s rolled a %d\n", player->playerName, dice_roll);
-          sidestep_move(game, playerId);
+        sidestep_move(game, playerId);
 
         forward_move(game, playerId, dice_roll-1);
 
@@ -345,6 +345,21 @@ void game_move_token_down(game_t* game, int row, int col)
     assert(!cell_is_empty(&game->board[row][col]));
     token_t *token = cell_pop_token(&game->board[row][col]);
     cell_push_token(&game->board[row+1][col],token);
+}
+
+bool game_can_move_token(const game_t* game, int row, int col)
+{
+    if(game->board[row][col].flags & OBSTACLE)
+    {
+        // Check all tiles behind this column for tokens.
+        // Return false if found otherwise return true
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+    
 }
 
 void game_drawboard(game_t* game)
