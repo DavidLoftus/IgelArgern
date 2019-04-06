@@ -87,3 +87,9 @@ void cell_print(const cell_t* cell)
         putchar(color_char(token->tokenColor));
     }
 }
+
+token_t* cell_peek(const cell_t* cell)
+{
+    assert(!cell_is_empty(cell));
+    return cell->top->token;
+}
