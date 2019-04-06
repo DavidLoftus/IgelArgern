@@ -333,6 +333,19 @@ void game_move_token_down(game_t* game, int row, int col)
 
 WINDOW* boardscr = NULL;
 
+void drawcell(game_t* game, int row, int col)
+{
+    cell_t* cell = &game->board[row][col];
+    if(!cell_is_empty(cell))
+    {
+        addch('O');
+    }
+    else if(cell->flags & OBSTACLE)
+    {
+
+    }
+}
+
 void game_drawboard(game_t* game)
 {
 
@@ -346,12 +359,10 @@ void game_drawboard(game_t* game)
 
     for(int i = 0; i < NUM_ROWS; i++)
     {
-        printf("|");
+        wmove(boardscr, i, 0);
         for(int j = 0; j < NUM_COLUMNS; j++)
         {
-            cell_print(&game->board[i][j]);
+            drawcell(game, i, j);
         }
-        printf("|\n");
     }
-    printf("\\---------/\n");
 }
