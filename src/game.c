@@ -300,7 +300,7 @@ void forward_move(game_t* game, int playerId, int row)
         {
             if(!cell_is_empty(&game->board[row][col-1]))
             {
-                if(game_can_move_token(game, row, col))
+                if(game_can_move_token(game, row, col-1))
                 {
                     break;
                 }
