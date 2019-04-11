@@ -34,5 +34,4 @@ void game_move_token_forward(game_t* game, int row, int col);
 void game_move_token_up(game_t* game, int row, int col);
 void game_move_token_down(game_t* game, int row, int col);
 bool game_can_move_token(const game_t* game, int row, int col);
-
 void sidestep_move(game_t* game, int playerId);
