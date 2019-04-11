@@ -52,6 +52,9 @@ bool cell_is_empty(const cell_t* cell)
     return cell->top == NULL;
 }
 
+/*
+Returns the first letter associated with the color of the token
+*/
 char color_char(color col)
 {
     switch(col)
@@ -70,16 +73,20 @@ char color_char(color col)
 		return 'C';
     }
 }
-
+/*
+ * Prints the cell
+ *
+ * Input: the cell to be printed.
+ */
 void cell_print(const cell_t* cell)
 {
     if( cell->flags & OBSTACLE /* && obstacle_is_blocking(cell) */ ) // TODO: only display obstacle char if it is still blocking movement
     {
-        putchar('#');
+        putchar('#');//'#' if the cell represents an obstacle
     }
     else if(cell_is_empty(cell))
     {
-        putchar(' ');
+        putchar(' ');//cell is assigned an empty space otherwise
     }
     else
     {

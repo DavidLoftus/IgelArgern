@@ -29,7 +29,7 @@ char* string_upper(char* str)
 	}
 	return str;
 }
-
+//This function creates players for the first time
 void init_player(game_t* game, int id)
 {
 
@@ -107,7 +107,7 @@ void init_player(game_t* game, int id)
     }
 }
 
-// Places a token
+//  Place tokens in the first column of the board
 void place_token(game_t* game, int playerId, int tokenId)
 {
     // Should prompt user for the row they'd like to place their next token on
@@ -393,6 +393,7 @@ bool game_can_move_token(const game_t* game, int row, int col)
 
 void game_drawboard(game_t* game)
 {
+    //prints the number of the columns at the end of the board
     printf("    1   2   3   4   5   6   7   8   9   \n");
     printf("  /-----------------------------------\\\n");
     for(int i = 0; i < NUM_ROWS; i++)

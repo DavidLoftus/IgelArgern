@@ -1,5 +1,5 @@
 #include <stdbool.h>
-
+//colors of tokens
 typedef enum
 {
     RED,
@@ -9,7 +9,8 @@ typedef enum
     MAGENTA,
     CYAN
 } color;
-
+//defines a token.
+//Note each token can be associated with a color
 typedef struct token_t
 {
     int teamId;
@@ -22,6 +23,7 @@ struct stack_node
     struct stack_node* next;
 };
 
+//types of squares
 typedef enum
 {
     OBSTACLE = 1,
