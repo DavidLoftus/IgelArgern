@@ -29,7 +29,7 @@ char* string_upper(char* str)
 	}
 	return str;
 }
-
+//This function creates players for the first time
 void init_player(game_t* game, int id)
 {
 
@@ -107,7 +107,7 @@ void init_player(game_t* game, int id)
     }
 }
 
-// Places a token
+//  Place tokens in the first column of the board
 void place_token(game_t* game, int playerId, int tokenId)
 {
     // Should prompt user for the row they'd like to place their next token on
@@ -332,8 +332,6 @@ void game_run(game_t* game)
     while(!check_winner(game, &winner))
     {
         game_drawboard(game);
-
-        // TODO: Logic for a single move
         player_t* player = &game->players[playerId];
 
         int dice_roll = rand() % 6+1;
@@ -352,8 +350,6 @@ void game_run(game_t* game)
 
 void game_move_token_forward(game_t* game, int row, int col)
 {
-    // TODO: implement
-    // Assert there is a token at game->board[row][col] (this won't be tested in release build if we write our code correctly)
     // Assert that there is a cell in front of current cell (simple bounds check)
     // 1. pop token from stack using cell_pop_token (provide pointer to cell e.g. &cell->board[row][col])
     // 2. push that token to the cell in front (board[row][col+1])
@@ -400,6 +396,7 @@ bool game_can_move_token(const game_t* game, int row, int col)
 
 void game_drawboard(game_t* game)
 {
+    //prints the number of the columns at the end of the board
     printf("    1   2   3   4   5   6   7   8   9   \n");
     printf("  /-----------------------------------\\\n");
     for(int i = 0; i < NUM_ROWS; i++)

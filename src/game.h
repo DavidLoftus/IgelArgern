@@ -14,9 +14,9 @@ typedef struct player_t
     token_t tokens[4];
 } player_t;
 
-#define NUM_ROWS 6
-#define NUM_COLUMNS 9
-#define MAX_PLAYERS 6
+#define NUM_ROWS 6 //number of rows of the board
+#define NUM_COLUMNS 9//number of columns of the board
+#define MAX_PLAYERS 6//maximum number of players that can play
 
 typedef struct game_t
 {
