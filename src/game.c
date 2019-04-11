@@ -393,15 +393,20 @@ bool game_can_move_token(const game_t* game, int row, int col)
 
 void game_drawboard(game_t* game)
 {
-    printf("/---------\\\n");
+    printf("    1   2   3   4   5   6   7   8   9   \n");
+    printf("  /-----------------------------------\\\n");
     for(int i = 0; i < NUM_ROWS; i++)
     {
-        printf("|");
+        printf("%d |", i+1);
         for(int j = 0; j < NUM_COLUMNS; j++)
         {
+            printf(" ");
             cell_print(&game->board[i][j]);
+            printf(" |");
         }
-        printf("|\n");
+        printf("\n");
+        if(i != NUM_ROWS-1)
+            printf("  |-----------------------------------|\n");
     }
-    printf("\\---------/\n");
+    printf("  \\-----------------------------------/\n");
 }
