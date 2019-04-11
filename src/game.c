@@ -345,6 +345,9 @@ void game_run(game_t* game)
 
         playerId = (playerId + 1) % game->numplayers;
     }
+
+    printf("The winner is %s!\n", game->players[playerId].playerName);
+
 }
 
 void game_move_token_forward(game_t* game, int row, int col)
