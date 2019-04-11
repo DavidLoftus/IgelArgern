@@ -1,4 +1,6 @@
 #include "game.h"
+#include "ui.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -188,15 +190,20 @@ void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS])
 
 void game_init(game_t* game)
 {
-    initscr();
+    stdscr = initscr();
+    noecho();
 
-    printf("Enter the number of players: ");
-    scanf("%d", &game->numplayers);
-    skipline();
+    game_drawboard(game);
+
+    int res;
+    do {
+        res = promptf("Enter the number of players: ", "%d", &game->numplayers);
+    } while(res < 1);
 
     if(game->numplayers > MAX_PLAYERS)
     {
-        printf("Too many players, max is %d.\n", MAX_PLAYERS);
+        msgboxf("Too many players, max is %d.\n", MAX_PLAYERS);
+        endwin();
         exit(1);
     }
 
@@ -224,7 +231,6 @@ bool check_winner(game_t* game, int* pWinner)
                     *pWinner = node->token->teamId;
                 return true;
             }
-
         }
     }
     return false;
@@ -357,11 +363,15 @@ void drawcell(game_t* game, int row, int col)
     cell_t* cell = &game->board[row][col];
     if(!cell_is_empty(cell))
     {
-        addch('O');
+        waddch(boardscr, 'O');
     }
     else if(cell->flags & OBSTACLE)
     {
-
+        waddch(boardscr, '#');
+    }
+    else
+    {
+        waddch(boardscr, ' ');
     }
 }
 
@@ -370,7 +380,7 @@ void game_drawboard(game_t* game)
 
     if(boardscr == NULL)
     {
-        boardscr = newwin(0, 0, NUM_ROWS + 2, NUM_COLUMNS + 2);
+        boardscr = newwin(NUM_ROWS + 2, NUM_COLUMNS + 2, 0, 0);
     }
 
     wclear(boardscr);
@@ -378,10 +388,13 @@ void game_drawboard(game_t* game)
 
     for(int i = 0; i < NUM_ROWS; i++)
     {
-        wmove(boardscr, i, 0);
+        wmove(boardscr, i+1, 1);
         for(int j = 0; j < NUM_COLUMNS; j++)
         {
             drawcell(game, i, j);
         }
     }
+
+    wrefresh(boardscr);
+    wgetch(boardscr);
 }
