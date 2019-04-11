@@ -332,8 +332,6 @@ void game_run(game_t* game)
     while(!check_winner(game, &winner))
     {
         game_drawboard(game);
-
-        // TODO: Logic for a single move
         player_t* player = &game->players[playerId];
 
         int dice_roll = rand() % 6+1;
@@ -349,8 +347,6 @@ void game_run(game_t* game)
 
 void game_move_token_forward(game_t* game, int row, int col)
 {
-    // TODO: implement
-    // Assert there is a token at game->board[row][col] (this won't be tested in release build if we write our code correctly)
     // Assert that there is a cell in front of current cell (simple bounds check)
     // 1. pop token from stack using cell_pop_token (provide pointer to cell e.g. &cell->board[row][col])
     // 2. push that token to the cell in front (board[row][col+1])
