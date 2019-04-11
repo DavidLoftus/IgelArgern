@@ -209,8 +209,7 @@ bool check_winner(game_t* game, int* pWinner)
 {
     // TODO: Check if all 4 tokens of a single color are at the final column
     int complete[MAX_PLAYERS];
-    size_t i;
-    for (i= 0; i < NUM_ROWS; ++i)
+    for (size_t i = 0; i < NUM_ROWS; ++i)
     {
         for(struct stack_node* node = game->board[i][NUM_COLUMNS-1].top; node; node = node->next)
         {
@@ -255,6 +254,7 @@ void sidestep_move(game_t* game, int playerId)
             {
                 printf("Would you like to sidestep (u)p or (d)own? ");
                 scanf(" %c", &option);
+                skipline();
 
                 bool success = false;
 
@@ -278,7 +278,12 @@ void sidestep_move(game_t* game, int playerId)
                         break; // TODO probably loop back again
                 }
 
-                break;
+                if(success)
+                {
+                    printf("Sidestep successful!\n");
+                    game_drawboard(game);
+                    break;
+                }
             }
 
         }
