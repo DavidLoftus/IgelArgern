@@ -231,13 +231,14 @@ void sidestep_move(game_t* game, int playerId)
     printf("Would you like to make a sidestep move? (Only (Y)es or (N)o are acceptable) ");
     char option;
     scanf(" %c", &option);
-    if(option == 'Y')
+    if(toupper(option) == 'Y')
     {
         printf("Please select the row and column of the token you would like to sidestep: ");
         int row, col;
         while(true)
         {
             int count = scanf("%d %d", &row, &col);
+            skipline();
             if ( count != 2 || col > NUM_COLUMNS || row > NUM_ROWS || row < 1 || col < 1 )
             {
                 printf("Input is invalid, try again: ");
@@ -252,10 +253,32 @@ void sidestep_move(game_t* game, int playerId)
             }
             else
             {
+                printf("Would you like to sidestep (u)p or (d)own? ");
+                scanf(" %c", &option);
 
+                bool success = false;
+
+                switch(toupper(option))
+                {
+                    case 'U':
+                        if(row != 1)
+                        {
+                            game_move_token_up(game, row-1, col-1);
+                            success = true;
+                        }
+                        break;
+                    case 'D':
+                        if(row != NUM_ROWS)
+                        {
+                            game_move_token_down(game, row-1, col-1);
+                            success = true;
+                        }
+                        break;
+                    default:
+                        break; // TODO probably loop back again
+                }
 
                 break;
-
             }
 
         }
@@ -272,7 +295,14 @@ void forward_move(game_t* game, int playerId, int row)
         {
             if(!cell_is_empty(&game->board[row][col-1]))
             {
-                break;
+                if(game_can_move_token(game, row, col))
+                {
+                    break;
+                }
+                else
+                {
+                    printf("You that token is blocked, try again: ");
+                }
             }
             else
             {
