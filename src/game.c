@@ -231,22 +231,16 @@ void sidestep_move(game_t* game, int playerId)
     printf("Would you like to make a sidestep move? (Only (Y)es or (N)o are acceptable) ");
     char option;
     scanf(" %c", &option);
-    switch (option)
+    if(option == 'Y')
     {
-    case 'N' :
-        printf("Continue to play");
-        break;
-    case 'Y' :
         printf("Please select the row and column of the token you would like to sidestep: ");
-        int row;
-        int col;
+        int row, col;
         while(true)
         {
-            scanf("%d %d", &row, &col);
-
-            if (col > NUM_COLUMNS||row > NUM_ROWS|| row < 1 ||col < 1 )
+            int count = scanf("%d %d", &row, &col);
+            if ( count != 2 || col > NUM_COLUMNS || row > NUM_ROWS || row < 1 || col < 1 )
             {
-                printf("Try again.... the input given is invalid:");
+                printf("Input is invalid, try again: ");
             }
             else if(cell_is_empty(&game->board[row-1][col-1]))
             {
@@ -254,7 +248,7 @@ void sidestep_move(game_t* game, int playerId)
             }
             else if(cell_peek(&game->board[row-1][col-1])->teamId != playerId)
             {
-                printf("You can only sidestep your own tokens. Try again: ");
+                printf("You can only sidestep your own tokens, try again: ");
             }
             else
             {
