@@ -159,6 +159,7 @@ void place_tokens(game_t* game)
             place_token(game, playerId, tokenId);
         }
     }
+    skipline();
 }
 
 void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS])
@@ -204,7 +205,7 @@ void game_init(game_t* game)
 
 bool check_winner(game_t* game, int* pWinner)
 {
-    //Check if all 4 tokens of a single color are at the final column
+    //Check if all 3 tokens of a single color are at the final column
     int complete[MAX_PLAYERS];
     for (size_t i = 0; i < NUM_ROWS; ++i)
     {
@@ -222,68 +223,87 @@ bool check_winner(game_t* game, int* pWinner)
     return false;
 }
 
+
+bool ask_sidestep(game_t* game, int row, int col)
+{
+    char input[32];
+    printf("Would you like to move up or down? (press enter to go back) ");
+    while(true)
+    {
+        fgets(input, sizeof(input), stdin);
+
+        if(input[0] == '\0' || (input[0] == '\r' && input[1] == '\n') || input[0] == '\n')
+        {
+            return false;
+        }
+
+        switch(toupper(input[0]))
+        {
+            case 'U':
+                if(row != 0)
+                {
+                    game_move_token_up(game, row, col);
+                    return true;
+                }
+                printf("Can't move that token up, try again: ");
+                break;
+            case 'D':
+                if(row != NUM_ROWS-1)
+                {
+                    game_move_token_down(game, row, col);
+                    return true;  
+                }
+                else
+                {
+                    printf("Can't move that token down, try again: ");
+                    break;
+                }
+            default:
+                printf("Invalid input, try again: ");
+                break;
+        }
+    }
+}
+
 void sidestep_move(game_t* game, int playerId)
 {
-    printf("Would you like to make a sidestep move? (Only (Y)es or (N)o are acceptable) ");
-    char option;
-    scanf(" %c", &option);
-    if(toupper(option) == 'Y')
+    char input[32];
+    printf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
+    while(true)
     {
-        printf("Please select the row and column of the token you would like to sidestep: ");
-        int row, col;
-        while(true)
+        fgets(input, sizeof(input), stdin);
+
+        if(input[0] == '\0' || (input[0] == '\r' && input[1] == '\n') || input[0] == '\n')
+            break;
+
+        int row,col;
+        int count = sscanf(input, "%d %d", &row, &col);
+        if ( count != 2 || col > NUM_COLUMNS || row > NUM_ROWS || row < 1 || col < 1 )
         {
-            int count = scanf("%d %d", &row, &col);
-            skipline();
-            if ( count != 2 || col > NUM_COLUMNS || row > NUM_ROWS || row < 1 || col < 1 )
+            printf("Input is invalid, try again: ");
+        }
+        else if(cell_is_empty(&game->board[row-1][col-1]))
+        {
+            printf("The cell is empty, try again: ");
+        }
+        else if(cell_peek(&game->board[row-1][col-1])->teamId != playerId)
+        {
+            printf("You can only sidestep your own tokens, try again: ");
+        }
+        else
+        {
+            if(ask_sidestep(game, row-1, col-1))
             {
-                printf("Input is invalid, try again: ");
-            }
-            else if(cell_is_empty(&game->board[row-1][col-1]))
-            {
-                printf("The cell is empty, try again: ");
-            }
-            else if(cell_peek(&game->board[row-1][col-1])->teamId != playerId)
-            {
-                printf("You can only sidestep your own tokens, try again: ");
+                printf("Sidestep successful!\n");
+                game_drawboard(game);
+                break;
             }
             else
             {
-                printf("Would you like to sidestep (u)p or (d)own? ");
-                scanf(" %c", &option);
-                skipline();
-
-                bool success = false;
-
-                switch(toupper(option))
-                {
-                    case 'U':
-                        if(row != 1)
-                        {
-                            game_move_token_up(game, row-1, col-1);
-                            success = true;
-                        }
-                        break;
-                    case 'D':
-                        if(row != NUM_ROWS)
-                        {
-                            game_move_token_down(game, row-1, col-1);
-                            success = true;
-                        }
-                        break;
-                    default:
-                        break; // TODO probably loop back again
-                }
-
-                if(success)
-                {
-                    printf("Sidestep successful!\n");
-                    game_drawboard(game);
-                    break;
-                }
+                printf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
             }
-
         }
+
     }
 }
 void forward_move(game_t* game, int playerId, int row)
