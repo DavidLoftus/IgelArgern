@@ -42,7 +42,7 @@ void init_player(game_t* game, int id)
     printf("Choose your color (RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN): ");
     char color[16];
     bool valid = false;
-    for(;;)
+    while(1)
     {
         readline(color, sizeof(color));
         string_upper(color);
@@ -127,7 +127,7 @@ void place_token(game_t* game, int playerId, int tokenId)
     printf("%s (%c), which row do you want to place your token (1 - 6): ", player->playerName, color_char(player->playerColor));
 
     int row;
-    for(;;)
+    while(1)
     {
         if(scanf("%d", &row) != 1 || row < 1 || row > NUM_ROWS)
         {
@@ -228,7 +228,7 @@ bool ask_sidestep(game_t* game, int row, int col)
 {
     char input[32];
     printf("Would you like to move up or down? (press enter to go back) ");
-    while(true)
+    while(1)
     {
         fgets(input, sizeof(input), stdin);
 
@@ -253,11 +253,8 @@ bool ask_sidestep(game_t* game, int row, int col)
                     game_move_token_down(game, row, col);
                     return true;  
                 }
-                else
-                {
-                    printf("Can't move that token down, try again: ");
-                    break;
-                }
+                printf("Can't move that token down, try again: ");
+                break;
             default:
                 printf("Invalid input, try again: ");
                 break;
@@ -269,7 +266,7 @@ void sidestep_move(game_t* game, int playerId)
 {
     char input[32];
     printf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
-    while(true)
+    while(1)
     {
         fgets(input, sizeof(input), stdin);
 
@@ -318,13 +315,12 @@ void forward_move(game_t* game, int playerId, int row)
     {
         printf("There is no possible move available\n");
         return;
-
     }
 
     printf("Pick the column of the token you would like to move forward (along row %d): ", row+1);
 
     int col;
-    while(true)
+    while(1)
     {
         int count = scanf("%d", &col);
         skipline();
