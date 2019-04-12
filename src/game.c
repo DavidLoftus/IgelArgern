@@ -204,13 +204,13 @@ void game_init(game_t* game)
 
 bool check_winner(game_t* game, int* pWinner)
 {
-    // TODO: Check if all 4 tokens of a single color are at the final column
+    //Check if all 4 tokens of a single color are at the final column
     int complete[MAX_PLAYERS];
     for (size_t i = 0; i < NUM_ROWS; ++i)
     {
         for(struct stack_node* node = game->board[i][NUM_COLUMNS-1].top; node; node = node->next)
         {
-            if(++complete[node->token->teamId] > 4)
+            if(++complete[node->token->teamId] > 3)
             {
                 if(pWinner)
                     *pWinner = node->token->teamId;
