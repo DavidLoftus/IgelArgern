@@ -124,7 +124,7 @@ void place_token(game_t* game, int playerId, int tokenId)
 
     player_t* player = &game->players[playerId];
 
-    printf("%s, which row do you want to place your token (1 - 6): ", player->playerName);
+    printf("%s (%c), which row do you want to place your token (1 - 6): ", player->playerName, color_char(player->playerColor));
 
     int row;
     for(;;)
@@ -333,7 +333,7 @@ void game_run(game_t* game)
 
         int dice_roll = rand() % 6+1;
 
-        printf("%s rolled a %d\n", player->playerName, dice_roll);
+        printf("%s (%c) rolled a %d\n", player->playerName, color_char(player->playerColor), dice_roll);
         sidestep_move(game, playerId);
 
         forward_move(game, playerId, dice_roll-1);

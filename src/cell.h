@@ -9,6 +9,10 @@ typedef enum
     MAGENTA,
     CYAN
 } color;
+
+/* Returns the first letter associated with the color of the token */
+char color_char(color col);
+
 //defines a token.
 //Note each token can be associated with a color
 typedef struct token_t
