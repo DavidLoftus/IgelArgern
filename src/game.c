@@ -306,8 +306,20 @@ void sidestep_move(game_t* game, int playerId)
 
     }
 }
+void check_move (game_t* game, int row)
+{
+    //checks the rows for at least one moveable token
+    //If no possible move --> skipping turns.
+}
 void forward_move(game_t* game, int playerId, int row)
 {
+
+    if (!check_move(game,row)){
+        printf("There is no possible move available\n");
+        return;
+
+    }
+
     printf("Pick the column of the token you would like to move forward (along row %d): ", row+1);
 
     int col;
