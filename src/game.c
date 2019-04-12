@@ -129,12 +129,9 @@ void place_token(game_t* game, int playerId, int tokenId)
     int row;
     for(;;)
     {
-        if(scanf("%d", &row) != 1)
-            continue;
-
-        if(row < 1 || row > NUM_ROWS)
+        if(scanf("%d", &row) != 1 || row < 1 || row > NUM_ROWS)
         {
-            printf("Invalid row, try again: ");
+            printf("Invalid input, try again: ");
             continue;
         }
 
