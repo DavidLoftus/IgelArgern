@@ -162,6 +162,12 @@ void place_tokens(game_t* game)
     skipline();
 }
 
+/*
+ * This function creates the board for the first time
+ *
+ * Input: board - a 6x9 array of cells
+ *
+ */
 void initialize_board(cell_t board[NUM_ROWS][NUM_COLUMNS])
 {
     for (int i = 0; i < NUM_ROWS; i++)

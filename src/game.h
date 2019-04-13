@@ -1,9 +1,10 @@
 #include "cell.h"
+//struct defining the player
 typedef struct player_t
 {
-    char playerName[32];
-    color playerColor;
-    token_t tokens[4];
+    char playerName[32];//player name
+    color playerColor;//player color choosen by the player
+    token_t tokens[4];// tokens for each player
 } player_t;
 
 #define NUM_ROWS 6 //number of rows of the board
@@ -13,7 +14,7 @@ typedef struct player_t
 typedef struct game_t
 {
     cell_t board[NUM_ROWS][NUM_COLUMNS];   // 6 x 9 board
-    int numplayers;
+    int numplayers; // number of players
     player_t players[MAX_PLAYERS]; // up to 6 players
 } game_t;
 
