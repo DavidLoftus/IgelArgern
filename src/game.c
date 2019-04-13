@@ -148,7 +148,7 @@ void place_token(game_t* game, int playerId, int tokenId)
 
     cell_push_token(&game->board[row][0], &player->tokens[tokenId]);
 }
-
+// function defintion for placing the tokens at initial stage
 void place_tokens(game_t* game)
 {
     for(int tokenId = 0; tokenId < 4; ++tokenId)
@@ -323,7 +323,7 @@ void forward_move(game_t* game, int playerId, int row)
         printf("There is no possible move available\n");
         return;
     }
-
+    //prompt asking user whether wants to move token forward
     printf("Pick the column of the token you would like to move forward (along row %d): ", row+1);
 
     int col;
