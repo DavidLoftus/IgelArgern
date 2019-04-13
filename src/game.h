@@ -1,12 +1,4 @@
 #include "cell.h"
-
-typedef enum
-{
-   PLACEMENT = 0,
-   PLAY = 1,
-   GAMEOVER = 2
-}stages;
-
 typedef struct player_t
 {
     char playerName[32];
