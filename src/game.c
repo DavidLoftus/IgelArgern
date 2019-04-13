@@ -318,12 +318,11 @@ bool check_move (game_t* game, int row)
         {
         return true;
 
-        }else{
-
-            return false;
         }
     }
+    return false;
 }
+
 // This function is responsible for moving the token
 void forward_move(game_t* game, int playerId, int row)
 {
