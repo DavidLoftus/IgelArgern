@@ -251,7 +251,7 @@ bool ask_sidestep(game_t* game, int row, int col)
                 if(row != NUM_ROWS-1)
                 {
                     game_move_token_down(game, row, col);
-                    return true;  
+                    return true;
                 }
                 printf("Can't move that token down, try again: ");
                 break;
@@ -307,6 +307,12 @@ bool check_move (game_t* game, int row)
 {
     //checks the rows for at least one moveable token
     //If no possible move --> skipping turns.
+    for (size_t i = 0; i < row; ++i){
+        if(cell_is_empty(&game->board[i][0])
+        {
+        return true;
+        }
+    }
 }
 void forward_move(game_t* game, int playerId, int row)
 {
