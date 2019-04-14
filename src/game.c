@@ -325,16 +325,19 @@ void forward_move(game_t* game, int playerId, int row)
 
     if (!check_move(game,row))
     {
-        printf("There is no possible move available\n");
+        msgboxf("There is no possible move available, skipping turn.\n");
         return;
     }
-    //prompt asking user whether wants to move token forward
-    printf("Pick the column of the token you would like to move forward (along row %d): ", row+1);
+
+    //prompt message asking user which token to move forward
+    static const char msgFormat[] = "Pick the column of the token you would like to move forward (along row %d)";
+    char msg[sizeof(msgFormat)];
+    sprintf(msg, msgFormat, row+1);
 
     int col;
     while(1)
     {
-        int count = scanf("%d", &col);
+        int count = promptf(msg, "%d", &col);
         if(count == 1 && 1 <= col && col <= NUM_COLUMNS)
         {
             if(!cell_is_empty(&game->board[row][col-1]))
@@ -345,17 +348,17 @@ void forward_move(game_t* game, int playerId, int row)
                 }
                 else
                 {
-                    printf("You that token is blocked, try again: ");
+                    msgboxf("You that token is blocked, try again: ");
                 }
             }
             else
             {
-                printf("That cell is empty, try again: ");
+                msgboxf("That cell is empty, try again: ");
             }
         }
         else
         {
-            printf("Invalid input please enter a number from 1 to %d: ", NUM_COLUMNS);
+            msgboxf("Invalid input please enter a number from 1 to %d: ", NUM_COLUMNS);
         }
     }
 
