@@ -33,22 +33,24 @@ char* string_upper(char* str)
 	}
 	return str;
 }
+
 //This function creates players for the first time
 void init_player(game_t* game, int id)
 {
+    static const char msgFormat[] = "Player %d, please enter your name.";
 
     player_t* player = &game->players[id];
 
-    printf("Player %d, enter your name: ", id+1);
+    char msg[sizeof(msgFormat)];
+    sprintf(msg, msgFormat, id+1);
 
-    readline(game->players[id].playerName, sizeof(player->playerName));
+    promptf(msg, "%s", game->players[id].playerName);
 
-    printf("Choose your color (RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN): ");
     char color[16];
     bool valid = false;
-    while(1)
+    while(!valid)
     {
-        readline(color, sizeof(color));
+        promptf("Choose your color (RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN)", "%s", color);
         string_upper(color);
 
         if(strcmp(color, "RED") == 0)
@@ -84,7 +86,7 @@ void init_player(game_t* game, int id)
 
         if(!valid)
         {
-            printf("Invalid colour, try again: ");
+            msgboxf("Invalid colour, try again.");
             continue;
         }
 
@@ -92,15 +94,10 @@ void init_player(game_t* game, int id)
         {
             if(game->players[i].playerColor == player->playerColor)
             {
-                printf("Player %d already has that color, try again: ", i+1);
+                msgboxf("Player %d already has that color, try again.", i+1);
                 valid = false;
                 break;
             }
-        }
-
-        if(valid)
-        {
-            break;
         }
     }
 
@@ -201,7 +198,7 @@ void game_init(game_t* game)
 
     int res;
     do {
-        res = promptf("Enter the number of players: ", "%d", &game->numplayers);
+        res = promptf("Enter the number of players.", "%d", &game->numplayers);
     } while(res < 1);
 
     if(game->numplayers > MAX_PLAYERS)
@@ -388,14 +385,14 @@ void game_run(game_t* game)
 
         int dice_roll = rand() % 6+1;
 
-        printf("%s (%c) rolled a %d\n", player->playerName, color_char(player->playerColor), dice_roll);
+        msgboxf("%s (%c) rolled a %d\n", player->playerName, color_char(player->playerColor), dice_roll);
         sidestep_move(game, playerId);
 
         forward_move(game, playerId, dice_roll-1);
 
         playerId = (playerId + 1) % game->numplayers;
     }
-    printf("The winner is %s!\n", game->players[playerId].playerName);
+    msgboxf("The winner is %s!\n", game->players[playerId].playerName);
     endwin();
 }
 
