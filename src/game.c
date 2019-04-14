@@ -233,12 +233,12 @@ bool check_winner(game_t* game, int* pWinner)
 bool ask_sidestep(game_t* game, int row, int col)
 {
     char input[32];
-    printf("Would you like to move up or down? (press enter to go back) ");
+    
     while(1)
     {
-        fgets(input, sizeof(input), stdin);
+        int count = promptf("Would you like to move up or down? (press enter to go back) ", "%s", input);
 
-        if(input[0] == '\0' || (input[0] == '\r' && input[1] == '\n') || input[0] == '\n')
+        if(count == 0 || count == ERR)
         {
             return false;
         }
@@ -251,7 +251,7 @@ bool ask_sidestep(game_t* game, int row, int col)
                     game_move_token_up(game, row, col);
                     return true;
                 }
-                printf("Can't move that token up, try again: ");
+                msgboxf("Can't move that token up, try again: ");
                 break;
             case 'D':
                 if(row != NUM_ROWS-1)
@@ -259,10 +259,10 @@ bool ask_sidestep(game_t* game, int row, int col)
                     game_move_token_down(game, row, col);
                     return true;
                 }
-                printf("Can't move that token down, try again: ");
+                msgboxf("Can't move that token down, try again: ");
                 break;
             default:
-                printf("Invalid input, try again: ");
+                msgboxf("Invalid input, try again: ");
                 break;
         }
     }
