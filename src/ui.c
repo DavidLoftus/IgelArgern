@@ -14,7 +14,10 @@ void wmsgboxf(WINDOW* stdscr, const char* fmt, ...)
 
     va_end(lst);
 
-    WINDOW* win = newwin(h, w, 0, 0);
+    int maxx = getmaxx(stdscr);
+    int maxy = getmaxy(stdscr);
+
+    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2);
 
     box(win, 0, 0);
 
@@ -36,7 +39,10 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
 {
     int h = 7, w = strlen(msg) + 4;
 
-    WINDOW* win = newwin(h, w, 0, 0);
+    int maxx = getmaxx(stdscr);
+    int maxy = getmaxy(stdscr);
+
+    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2);
 
     box(win, 0, 0);
 
