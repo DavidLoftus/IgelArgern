@@ -270,40 +270,37 @@ bool ask_sidestep(game_t* game, int row, int col)
 
 void sidestep_move(game_t* game, int playerId)
 {
-    char input[32];
-    printf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
     while(1)
     {
-        fgets(input, sizeof(input), stdin);
-
-        if(input[0] == '\0' || (input[0] == '\r' && input[1] == '\n') || input[0] == '\n')
-            break;
-
         int row,col;
-        int count = sscanf(input, "%d %d", &row, &col);
+
+        int count = promptf("Please select the row and column of the token you would like to sidestep (or nothing to skip).", "%d %d", &row, &col);
+
+        if(count == 0 || count == ERR)
+            break;
         if ( count != 2 || col > NUM_COLUMNS || row > NUM_ROWS || row < 1 || col < 1 )
         {
-            printf("Input is invalid, try again: ");
+            msgboxf("Input is invalid, try again: ");
         }
         else if(cell_is_empty(&game->board[row-1][col-1]))
         {
-            printf("The cell is empty, try again: ");
+            msgboxf("The cell is empty, try again: ");
         }
         else if(cell_peek(&game->board[row-1][col-1])->teamId != playerId)
         {
-            printf("You can only sidestep your own tokens, try again: ");
+            msgboxf("You can only sidestep your own tokens, try again: ");
         }
         else
         {
             if(ask_sidestep(game, row-1, col-1))
             {
-                printf("Sidestep successful!\n");
+                msgboxf("Sidestep successful!\n");
                 game_drawboard(game);
                 break;
             }
             else
             {
-                printf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
+                msgboxf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
             }
         }
 

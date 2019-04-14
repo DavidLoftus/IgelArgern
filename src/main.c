@@ -13,6 +13,6 @@ int main(void)
 	
 	game_init(&game);
 
-	//game_run(&game);
+	game_run(&game);
 
 }
