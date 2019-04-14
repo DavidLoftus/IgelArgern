@@ -119,15 +119,16 @@ void place_token(game_t* game, int playerId, int tokenId)
     }
 
     player_t* player = &game->players[playerId];
-
-    printf("%s (%c), which row do you want to place your token (1 - 6): ", player->playerName, color_char(player->playerColor));
+    static const char msgFormat[] = "%s (%c), which row do you want to place your token (1 - 6).";
+    char msg[sizeof(msgFormat) + sizeof(player->playerName)];
+    sprintf(msg, msgFormat, player->playerName, color_char(player->playerColor));
 
     int row;
     while(1)
     {
-        if(scanf("%d", &row) != 1 || row < 1 || row > NUM_ROWS)
+        if(promptf(msg, "%d", &row) != 1 || row < 1 || row > NUM_ROWS)
         {
-            printf("Invalid input, try again: ");
+            msgboxf("Invalid input, try again.");
             continue;
         }
 
@@ -135,7 +136,7 @@ void place_token(game_t* game, int playerId, int tokenId)
 
         if(game->board[row][0].height > minheight)
         {
-            printf("That row is too high, try again: ");
+            msgboxf("That row is too high, try again.");
             continue;
         }
 
