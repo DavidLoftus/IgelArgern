@@ -1,5 +1,5 @@
 
-#include <ncurses/curses.h>
+#include <curses.h>
 
 
 void wmsgboxf(WINDOW* stdscr, const char* fmt, ...);

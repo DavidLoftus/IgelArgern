@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <time.h>
 
-#include <ncurses/curses.h>
+#include <curses.h>
 
 const char* readline(char* str, int n)
 {
