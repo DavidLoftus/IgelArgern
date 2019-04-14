@@ -17,7 +17,7 @@ void cell_finit(cell_t* cell, cellflags flags)
     cell->top = NULL;
     cell->height = 0;
 }
-
+/* push a token into the stack */
 void cell_push_token(cell_t* cell, token_t* token)
 {
     // Should push tokenColor to top of cell's stack.
@@ -26,9 +26,9 @@ void cell_push_token(cell_t* cell, token_t* token)
     node->next = cell->top;
     cell->top = node;
 
-    cell->height++;
+    cell->height++;// Increase element count in stack
 }
-
+/* pop a token from the stack */
 token_t* cell_pop_token(cell_t* cell)
 {
     // Should pop token from top of stack and return the token
@@ -43,7 +43,7 @@ token_t* cell_pop_token(cell_t* cell)
 
     free(node); // Free removed node
 
-    cell->height--;
+    cell->height--;//decrease element count in stack
 
     return token;
 }
@@ -52,6 +52,9 @@ bool cell_is_empty(const cell_t* cell)
     return cell->top == NULL;
 }
 
+/*
+Returns the first letter associated with the color of the token
+*/
 char color_char(color col)
 {
     switch(col)
@@ -70,16 +73,20 @@ char color_char(color col)
 		return 'C';
     }
 }
-
+/*
+ * Prints the cell
+ *
+ * Input: the cell to be printed.
+ */
 void cell_print(const cell_t* cell)
 {
     if( cell->flags & OBSTACLE /* && obstacle_is_blocking(cell) */ ) // TODO: only display obstacle char if it is still blocking movement
     {
-        putchar('#');
+        putchar('#');//'#' if the cell represents an obstacle
     }
     else if(cell_is_empty(cell))
     {
-        putchar(' ');
+        putchar(' ');//cell is assigned an empty space otherwise
     }
     else
     {
