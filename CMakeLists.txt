@@ -12,3 +12,5 @@ file(GLOB game_INCLUDE
 )
 
 add_executable(IgelArgern ${game_SRC} ${game_INCLUDE})
+
+set_property(TARGET IgelArgern PROPERTY C_STANDARD 99)
