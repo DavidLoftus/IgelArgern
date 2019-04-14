@@ -20,11 +20,6 @@ const char* readline(char* str, int n)
     return str;
 }
 
-void skipline()
-{
-    while(getchar() != '\n' && !feof(stdin));
-}
-
 char* string_upper(char* str)
 {
 	for(char* pStr = str; *pStr; ++pStr)
@@ -160,7 +155,6 @@ void place_tokens(game_t* game)
             place_token(game, playerId, tokenId);
         }
     }
-    skipline();
 }
 
 /*
@@ -345,7 +339,6 @@ void forward_move(game_t* game, int playerId, int row)
     while(1)
     {
         int count = scanf("%d", &col);
-        skipline();
         if(count == 1 && 1 <= col && col <= NUM_COLUMNS)
         {
             if(!cell_is_empty(&game->board[row][col-1]))
