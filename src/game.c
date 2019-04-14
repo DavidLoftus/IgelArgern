@@ -189,8 +189,6 @@ void game_init(game_t* game)
     stdscr = initscr();
     noecho();
 
-    game_drawboard(game);
-
     int res;
     do {
         res = promptf("Enter the number of players.", "%d", &game->numplayers);
@@ -476,5 +474,4 @@ void game_drawboard(game_t* game)
     }
 
     wrefresh(boardscr);
-    wgetch(boardscr);
 }
