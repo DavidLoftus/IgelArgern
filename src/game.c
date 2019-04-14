@@ -313,8 +313,8 @@ bool check_move (game_t* game, int row)
 {
     //checks the rows for at least one moveable token
     //If no possible move --> skipping turns.
-    for (size_t i = 0; i < row; ++i){
-        if(!cell_is_empty(&game->board[i][0]))
+    for (size_t i = 0; i < NUM_COLUMNS; ++i){
+        if(!cell_is_empty(&game->board[row][i])&& game_can_move_token(game, 0, 0))
         {
         return true;
 
