@@ -426,14 +426,15 @@ bool game_can_move_token(const game_t* game, int row, int col)
     {
         // Check all tiles behind this column for tokens.
         // Return false if found otherwise return true
-        for(size_t i = 0; i < col; ++i)
+        for(size_t i = 0; i < NUM_ROWS; ++i)
         {
-
-            if (!cell_is_empty(&game->board[row][col]))
+            for(size_t j = 0; j < col; ++j)
             {
-                return false;
+                if (!cell_is_empty(&game->board[i][j]))
+                {
+                    return false;
+                }
             }
-
         }
     }
     return true;
