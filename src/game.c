@@ -449,9 +449,8 @@ void game_drawboard(game_t* game)
         printf("%d |", i+1);
         for(int j = 0; j < NUM_COLUMNS; j++)
         {
-            printf(" ");
             cell_print(&game->board[i][j]);
-            printf(" |");
+            putchar('|');
         }
         printf("\n");
         if(i != NUM_ROWS-1)
