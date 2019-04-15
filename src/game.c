@@ -132,6 +132,7 @@ void place_token(game_t* game, int playerId, int tokenId)
         if(scanf("%d", &row) != 1 || row < 1 || row > NUM_ROWS)
         {
             printf("Invalid input, try again: ");
+            skipline();
             continue;
         }
 
@@ -140,6 +141,7 @@ void place_token(game_t* game, int playerId, int tokenId)
         if(game->board[row][0].height > minheight)
         {
             printf("That row is too high, try again: ");
+            skipline();
             continue;
         }
 
@@ -306,7 +308,6 @@ void sidestep_move(game_t* game, int playerId)
                 printf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
             }
         }
-
     }
 }
 bool check_move (game_t* game, int row)
