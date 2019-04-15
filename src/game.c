@@ -314,7 +314,8 @@ bool check_move (game_t* game, int row)
 {
     //checks the rows for at least one moveable token
     //If no possible move --> skipping turns.
-    for (size_t i = 0; i < NUM_COLUMNS; ++i){
+    // Dont check NUM_COLUMNS-1 because they can't move forward.
+    for (size_t i = 0; i < NUM_COLUMNS-1; ++i){
         if(!cell_is_empty(&game->board[row][i]) && game_can_move_token(game, row, i))
         {
             return true;
@@ -340,7 +341,8 @@ void forward_move(game_t* game, int playerId, int row)
     {
         int count = scanf("%d", &col);
         skipline();
-        if(count == 1 && 1 <= col && col <= NUM_COLUMNS)
+        // col can't be NUM_COLUMNS because that is the finish line
+        if(count == 1 && 1 <= col && col < NUM_COLUMNS)
         {
             if(!cell_is_empty(&game->board[row][col-1]))
             {
@@ -360,7 +362,7 @@ void forward_move(game_t* game, int playerId, int row)
         }
         else
         {
-            printf("Invalid input please enter a number from 1 to %d: ", NUM_COLUMNS);
+            printf("Invalid input please enter a number from 1 to %d: ", NUM_COLUMNS-1);
         }
     }
 
