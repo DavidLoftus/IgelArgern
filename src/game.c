@@ -214,12 +214,13 @@ void game_init(game_t* game)
 bool check_winner(game_t* game, int* pWinner)
 {
     //Check if all 3 tokens of a single color are at the final column
-    int complete[MAX_PLAYERS];
+    int complete[MAX_PLAYERS] = {0};
+
     for (size_t i = 0; i < NUM_ROWS; ++i)
     {
         for(struct stack_node* node = game->board[i][NUM_COLUMNS-1].top; node; node = node->next)
         {
-            if(++complete[node->token->teamId] > 3)
+            if(++complete[node->token->teamId] >= 3)
             {
                 if(pWinner)
                     *pWinner = node->token->teamId;
@@ -388,7 +389,7 @@ void game_run(game_t* game)
 
         playerId = (playerId + 1) % game->numplayers;
     }
-
+    game_drawboard(game);
     printf("The winner is %s!\n", game->players[playerId].playerName);
 
 }
