@@ -38,36 +38,45 @@ void wmsgboxf(WINDOW* stdscr, const char* fmt, ...)
 
 int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
 {
+    // Calculate necessary size of window
     int h = 7, w = strlen(msg) + 4;
 
+    // Fetch size of screen
     int maxx = getmaxx(stdscr);
     int maxy = getmaxy(stdscr);
+    
+    
+    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2); // Create new window at center of screen
 
-    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2);
+    box(win, 0, 0); // Surround window with box
+    
+    mvwaddstr(win, 2, 2, msg); // Print message at (2,2)
+    
 
-    box(win, 0, 0);
+    mvwchgat(win, 4, 2, w-4, A_STANDOUT, 0, NULL); // Set text region to be standout (highlighted)
 
-    mvwaddstr(win, 2, 2, msg);
-
-    mvwchgat(win, 4, 2, w-4, A_STANDOUT, 0, NULL);
-
-    wattron(win, A_STANDOUT);
+    // Temporarilly enable echo and STANDOUT for text input. 
+    wattron(win, A_STANDOUT); 
     echo();
-    wmove(win, 4, 2);
 
+    // Variadic arguments
     va_list lst;
-
     va_start(lst, formatString);
 
+    // Move cursor to start of textbox and read in input with given formatString
+    wmove(win, 4, 2);
     int resp = vw_scanw(win, formatString, lst);
 
     va_end(lst);
 
+    // Disable echo and STANDOUT 
     noecho();
     wattroff(win, A_STANDOUT);
 
+    // Delete window after use
     delwin(win);
 
+    // Ensure we redraw stdscr once prompt is closed
     redrawwin(stdscr);
     wrefresh(stdscr);
 
