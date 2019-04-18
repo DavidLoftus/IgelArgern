@@ -211,7 +211,7 @@ void game_init(game_t* game)
     place_tokens(game);
 }
 
-bool check_winner(game_t* game, int* pWinner)
+bool check_winner(const game_t* game, int* pWinner)
 {
     //Check if all 3 tokens of a single color are at the final column
     int complete[MAX_PLAYERS] = {0};
@@ -390,7 +390,8 @@ void game_run(game_t* game)
         playerId = (playerId + 1) % game->numplayers;
     }
     game_drawboard(game);
-    printf("The winner is %s!\n", game->players[playerId].playerName);
+    printf("The winner is %s!\nPrinting leaderboard:\n", game->players[playerId].playerName);
+    game_print_leaderboard(game);
 
 }
 
@@ -441,7 +442,7 @@ bool game_can_move_token(const game_t* game, int row, int col)
     return true;
 }
 
-void game_drawboard(game_t* game)
+void game_drawboard(const game_t* game)
 {
     //prints the number of the columns at the end of the board
     printf("    1   2   3   4   5   6   7   8   9   \n");
@@ -459,4 +460,57 @@ void game_drawboard(game_t* game)
             printf("  |-----------------------------------|\n");
     }
     printf("  \\-----------------------------------/\n");
+}
+
+void game_print_leaderboard(const game_t* game)
+{
+    int winnerId;
+    int score[MAX_PLAYERS] = {0};
+    
+    for (size_t i = 0; i < NUM_ROWS; ++i)
+    {
+        for (size_t j = 0; j < NUM_COLUMNS; ++j)
+        {
+            for(struct stack_node* node = game->board[i][j].top; node; node = node->next)
+            {
+                if(j == NUM_COLUMNS - 1)
+                {
+                    // Ensures a token at finish line has higher score than 4 tokens at column 8
+                    score[node->token->teamId] += 29;
+                }
+                else
+                {
+                    score[node->token->teamId] += j;
+                }
+            }
+        }
+    }
+
+    int leaderboard[MAX_PLAYERS];
+    for(int i = 0; i < game->numplayers; ++i)
+    {
+        leaderboard[i] = i;
+    }
+
+    for(int i = 0; i < game->numplayers-1; ++i)
+    {
+        int maxIdx = leaderboard[i];
+        for(int j = i+1; j < game->numplayers; ++j)
+        {
+            if(score[leaderboard[j]] > score[maxIdx])
+            {
+                maxIdx = leaderboard[j];
+            }
+        }
+
+        int swap = leaderboard[i];
+        leaderboard[i] = leaderboard[maxIdx];
+        leaderboard[maxIdx] = leaderboard[i];
+    }
+
+    printf("Place\tName\tScore\n");
+    for(int i = 0; i < game->numplayers; ++i)
+    {
+        printf("%d\t%s\t%d\n", i+1, game->players[leaderboard[i]].playerName, score[leaderboard[i]]);
+    }
 }

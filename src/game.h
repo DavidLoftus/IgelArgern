@@ -21,10 +21,10 @@ typedef struct game_t
 void game_init(game_t* game);
 void game_run(game_t* game);
 
-void game_drawboard(game_t* game);
+void game_drawboard(const game_t* game);
 
 void game_move_token_forward(game_t* game, int row, int col);
 void game_move_token_up(game_t* game, int row, int col);
 void game_move_token_down(game_t* game, int row, int col);
 bool game_can_move_token(const game_t* game, int row, int col);
-void sidestep_move(game_t* game, int playerId);
+void game_print_leaderboard(const game_t* game);
