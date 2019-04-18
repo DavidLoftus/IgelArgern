@@ -74,6 +74,57 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
     return resp;
 }
 
+int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* choices[], short colors[])
+{
+    int len = 0;
+
+    for(int i = 0; i < nchoices; ++i)
+    {
+        len += strlen(choices[i]) + 3;
+    }
+
+    int h = 5, w = len + 4;
+
+    int maxx = getmaxx(stdscr);
+    int maxy = getmaxy(stdscr);
+
+    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2);
+
+    box(win, 0, 0);
+
+    wmove(win, 2, 2);
+
+    int choice = 0;
+
+    for(int i = 0; i < nchoices; ++i)
+    {
+        if(choice == i)
+        {
+            wattron(win, A_STANDOUT);
+        }
+        wcolor_set(win, colors[i], NULL);
+        wprintw(win, "[%s] ", choices[i]);
+
+        if(choice == i)
+        {
+            wattroff(win, A_STANDOUT);
+        }
+    }
+    wcolor_set(win, 0, NULL);
+    
+    for(int c = wgetch(stdscr); c != KEY_ENTER && c != '\n'; c = wgetch(stdscr))
+    {
+        
+    }
+
+    delwin(win);
+
+    redrawwin(stdscr);
+    wrefresh(stdscr);
+
+    return choice;
+}
+
 WINDOW* boardscr = NULL;
 
 bool game_select_cell(const game_t* game, int* x, int* y)
