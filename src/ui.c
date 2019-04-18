@@ -83,7 +83,7 @@ void game_select_cell(const game_t* game, int* x, int* y)
     int i = 0, j = 0;
     wmove(boardscr, i+1, j+1);
 
-    for(int c = wgetch(boardscr); c != KEY_ENTER; c = wgetch(boardscr))
+    for(int c = wgetch(boardscr); c != KEY_ENTER && c != '\n'; c = wgetch(boardscr))
     {
         switch(c)
         {

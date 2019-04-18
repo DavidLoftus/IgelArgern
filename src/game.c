@@ -197,7 +197,8 @@ void game_init(game_t* game)
     init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
 
-    msgboxf("Hello world");
+    initialize_board(game->board);
+    game_select_cell(game, NULL, NULL);
 
     int res;
     do {
@@ -216,10 +217,8 @@ void game_init(game_t* game)
         init_player(game, i);
     }
 
-    initialize_board(game->board);
     place_tokens(game);
 
-    game_select_cell(game, NULL, NULL);
 }
 
 bool check_winner(game_t* game, int* pWinner)
