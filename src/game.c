@@ -123,16 +123,15 @@ void place_token(game_t* game, int playerId, int tokenId)
     char msg[sizeof(msgFormat) + sizeof(player->playerName)];
     sprintf(msg, msgFormat, player->playerName, color_char(player->playerColor));
 
-    int row;
+    int row, col;
     while(1)
     {
-        if(promptf(msg, "%d", &row) != 1 || row < 1 || row > NUM_ROWS)
+        while(!game_select_cell(game, &row, &col));
+        if(col != 0)
         {
-            msgboxf("Invalid input, try again.");
+            msgboxf("Can only select a cell on first column.");
             continue;
         }
-
-        row--; // 1-based index to 0-based
 
         if(game->board[row][0].height > minheight)
         {
@@ -198,18 +197,17 @@ void game_init(game_t* game)
     init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
 
     initialize_board(game->board);
-    game_select_cell(game, NULL, NULL);
 
-    int res;
-    do {
-        res = promptf("Enter the number of players.", "%d", &game->numplayers);
-    } while(res < 1);
-
-    if(game->numplayers > MAX_PLAYERS)
+    while(1)
     {
-        msgboxf("Too many players, max is %d.\n", MAX_PLAYERS);
-        endwin();
-        exit(1);
+        int res = promptf("Enter the number of players.", "%d", &game->numplayers);
+        if(res == 1)
+        {
+            if(game->numplayers < 1 || game->numplayers > MAX_PLAYERS)
+                msgboxf("Sorry you can only have 1 to %d players.", MAX_PLAYERS);
+            else
+                break;
+        }
     }
 
     for(int i = 0; i < game->numplayers; ++i)
@@ -281,31 +279,28 @@ bool ask_sidestep(game_t* game, int row, int col)
 
 void sidestep_move(game_t* game, int playerId)
 {
+    msgboxf("Please select the row and column of the token you would like to sidestep (press q to skip).");
     while(1)
     {
         int row,col;
-
-        int count = promptf("Please select the row and column of the token you would like to sidestep (or nothing to skip).", "%d %d", &row, &col);
-
-        if(count == 0 || count == ERR)
-            break;
-        if ( count != 2 || col > NUM_COLUMNS || row > NUM_ROWS || row < 1 || col < 1 )
+        if(!game_select_cell(game, &row, &col))
         {
-            msgboxf("Input is invalid, try again: ");
+            break; // User pressed q to skip
         }
-        else if(cell_is_empty(&game->board[row-1][col-1]))
+        
+        if(cell_is_empty(&game->board[row][col]))
         {
             msgboxf("The cell is empty, try again: ");
         }
-        else if(cell_peek(&game->board[row-1][col-1])->teamId != playerId)
+        else if(cell_peek(&game->board[row][col])->teamId != playerId)
         {
             msgboxf("You can only sidestep your own tokens, try again: ");
         }
         else
         {
-            if(ask_sidestep(game, row-1, col-1))
+            if(ask_sidestep(game, row, col))
             {
-                msgboxf("Sidestep successful!\n");
+                msgboxf("Sidestep successful!");
                 game_drawboard(game);
                 break;
             }
@@ -336,7 +331,7 @@ void forward_move(game_t* game, int playerId, int row)
 
     if (!check_move(game,row))
     {
-        msgboxf("There is no possible move available, skipping turn.\n");
+        msgboxf("There is no possible move available, skipping turn.");
         return;
     }
 
@@ -345,11 +340,11 @@ void forward_move(game_t* game, int playerId, int row)
     char msg[sizeof(msgFormat)];
     sprintf(msg, msgFormat, row+1);
 
-    int col;
+    int _row, col;
     while(1)
     {
-        int count = promptf(msg, "%d", &col);
-        if(count == 1 && 1 <= col && col <= NUM_COLUMNS)
+        while(!game_select_cell(game, &_row, &col));
+        if(_row != row)
         {
             if(!cell_is_empty(&game->board[row][col-1]))
             {
@@ -364,12 +359,12 @@ void forward_move(game_t* game, int playerId, int row)
             }
             else
             {
-                msgboxf("That cell is empty, try again: ");
+                msgboxf("That cell is empty.");
             }
         }
         else
         {
-            msgboxf("Invalid input please enter a number from 1 to %d: ", NUM_COLUMNS);
+            msgboxf("Please select a cell on row %d", row);
         }
     }
 
@@ -388,14 +383,14 @@ void game_run(game_t* game)
 
         int dice_roll = rand() % 6+1;
 
-        msgboxf("%s (%c) rolled a %d\n", player->playerName, color_char(player->playerColor), dice_roll);
+        msgboxf("%s (%c) rolled a %d", player->playerName, color_char(player->playerColor), dice_roll);
         sidestep_move(game, playerId);
 
         forward_move(game, playerId, dice_roll-1);
 
         playerId = (playerId + 1) % game->numplayers;
     }
-    msgboxf("The winner is %s!\n", game->players[playerId].playerName);
+    msgboxf("The winner is %s!", game->players[playerId].playerName);
     endwin();
 }
 

@@ -76,7 +76,7 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
 
 WINDOW* boardscr = NULL;
 
-void game_select_cell(const game_t* game, int* x, int* y)
+bool game_select_cell(const game_t* game, int* x, int* y)
 {
     game_drawboard(game);
 
@@ -103,8 +103,14 @@ void game_select_cell(const game_t* game, int* x, int* y)
             if(j < NUM_COLUMNS-1) j++;
             wmove(boardscr, i+1, j+1);
             break;
+        case 'q':
+            return false;
         }
     }
+
+    *x = i;
+    *y = j;
+    return true;
 }
 
 void drawcell(const game_t* game, int row, int col)

@@ -11,4 +11,4 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...);
 typedef struct game_t game_t;
 
 void game_drawboard(const game_t* game);
-void game_select_cell(const game_t* game, int* x, int* y);
+bool game_select_cell(const game_t* game, int* x, int* y);
