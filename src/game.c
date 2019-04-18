@@ -168,6 +168,7 @@ void game_init(game_t* game)
     stdscr = initscr();
     noecho();
     start_color();
+    keypad(stdscr, true);
 
     init_pair(RED, COLOR_RED, COLOR_BLACK);
     init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);

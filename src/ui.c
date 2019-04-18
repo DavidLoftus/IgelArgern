@@ -134,7 +134,9 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
     return choice;
 }
 
-WINDOW* boardscr = NULL;
+// window to draw
+// WINDOW* boardscr = NULL;
+#define boardscr stdscr
 
 bool game_select_cell(const game_t* game, int* x, int* y)
 {
@@ -198,7 +200,6 @@ void game_drawboard(const game_t* game)
     if(boardscr == NULL)
     {
         boardscr = newwin(NUM_ROWS + 2, NUM_COLUMNS + 2, 0, 0);
-        keypad(boardscr, 1);
     }
 
     wclear(boardscr);
