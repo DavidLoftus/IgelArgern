@@ -87,6 +87,29 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
     return resp;
 }
 
+void drawChoices(WINDOW* win, int nchoices, const char* choices[], short colors[], int choice)
+{
+    wmove(win, 2, 2);
+    for(int i = 0; i < nchoices; ++i)
+    {
+        if(colors)
+            wcolor_set(win, colors[i], NULL);
+        waddstr(win, "[");
+
+        if(choice == i)
+            wattron(win, A_STANDOUT);
+
+        waddstr(win, choices[i]);
+
+        if(choice == i)
+            wattroff(win, A_STANDOUT);
+
+        waddstr(win, "] ");
+    }
+    // Set back to default color
+    wcolor_set(win, 0, NULL);
+}
+
 int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* choices[], short colors[])
 {
     int len = 0;
@@ -114,24 +137,7 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
 
     int choice = 0; // Current choice
 
-    wmove(win, 2, 2);
-    for(int i = 0; i < nchoices; ++i)
-    {
-        wcolor_set(win, colors[i], NULL);
-        waddstr(win, "[");
-
-        if(choice == i)
-            wattron(win, A_STANDOUT);
-
-        waddstr(win, choices[i]);
-
-        if(choice == i)
-            wattroff(win, A_STANDOUT);
-
-        waddstr(win, "] ");
-    }
-    // Set back to default color
-    wcolor_set(win, 0, NULL);
+    drawChoices(win, nchoices, choices, colors, choice);
     
     for(int c = wgetch(win); c != KEY_ENTER && c != '\n'; c = wgetch(win))
     {
@@ -150,24 +156,7 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
 
         if(flag)
         {
-            wmove(win, 2, 2);
-            for(int i = 0; i < nchoices; ++i)
-            {
-                wcolor_set(win, colors[i], NULL);
-                waddstr(win, "[");
-
-                if(choice == i)
-                    wattron(win, A_STANDOUT);
-
-                waddstr(win, choices[i]);
-
-                if(choice == i)
-                    wattroff(win, A_STANDOUT);
-
-                waddstr(win, "] ");
-            }
-            // Set back to default color
-            wcolor_set(win, 0, NULL);
+            drawChoices(win, nchoices, choices, colors, choice);
         }
     }
 
@@ -223,10 +212,14 @@ bool game_select_cell(const game_t* game, int* x, int* y)
 void drawcell(const game_t* game, int row, int col)
 {
     const cell_t* cell = &game->board[row][col];
+
     if(!cell_is_empty(cell))
     {
         wcolor_set(boardscr, cell_peek(cell)->tokenColor, NULL);
-        waddch(boardscr, 'O');
+        if(cell->flags & OBSTACLE)
+            waddch(boardscr, '#');
+        else
+            waddch(boardscr, 'O');
         wcolor_set(boardscr, 0, NULL);
     }
     else if(cell->flags & OBSTACLE)

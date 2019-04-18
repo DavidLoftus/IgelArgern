@@ -64,7 +64,7 @@ void init_player(game_t* game, int id)
     while(!valid)
     {
         player->playerColor = RED + selectPrompt("Choose your color.", sizeof(choices)/sizeof(choices[0]), choices, choiceColors);
-
+        valid = true;
         for(int i = 0; i < id; ++i)
         {
             if(game->players[i].playerColor == player->playerColor)
@@ -222,39 +222,29 @@ bool check_winner(game_t* game, int* pWinner)
 
 bool ask_sidestep(game_t* game, int row, int col)
 {
-    char input[32];
-    
-    while(1)
+    static const char* choices[] = {"Up", "Down", "Cancel"};
+    msgboxf("test");
+    int choice = selectPrompt("Would you like to move up or down?", 3, choices, NULL);
+    switch(choice)
     {
-        int count = promptf("Would you like to move up or down? (press enter to go back) ", "%s", input);
-
-        if(count == 0 || count == ERR)
-        {
+        case 0:
+            if(row != 0)
+            {
+                game_move_token_up(game, row, col);
+                return true;
+            }
+            msgboxf("Can't move that token up, try again: ");
+            break;
+        case 1:
+            if(row != NUM_ROWS-1)
+            {
+                game_move_token_down(game, row, col);
+                return true;
+            }
+            msgboxf("Can't move that token down, try again: ");
+            break;
+        default:
             return false;
-        }
-
-        switch(toupper(input[0]))
-        {
-            case 'U':
-                if(row != 0)
-                {
-                    game_move_token_up(game, row, col);
-                    return true;
-                }
-                msgboxf("Can't move that token up, try again: ");
-                break;
-            case 'D':
-                if(row != NUM_ROWS-1)
-                {
-                    game_move_token_down(game, row, col);
-                    return true;
-                }
-                msgboxf("Can't move that token down, try again: ");
-                break;
-            default:
-                msgboxf("Invalid input, try again: ");
-                break;
-        }
     }
 }
 
