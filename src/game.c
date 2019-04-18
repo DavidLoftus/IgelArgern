@@ -188,6 +188,9 @@ void game_init(game_t* game)
 {
     stdscr = initscr();
     noecho();
+    start_color();
+
+    msgboxf("Hello world");
 
     int res;
     do {
@@ -208,6 +211,8 @@ void game_init(game_t* game)
 
     initialize_board(game->board);
     place_tokens(game);
+
+    game_select_cell(game, NULL, NULL);
 }
 
 bool check_winner(game_t* game, int* pWinner)
@@ -432,46 +437,4 @@ bool game_can_move_token(const game_t* game, int row, int col)
         }
     }
     return true;
-}
-
-WINDOW* boardscr = NULL;
-
-void drawcell(game_t* game, int row, int col)
-{
-    cell_t* cell = &game->board[row][col];
-    if(!cell_is_empty(cell))
-    {
-        waddch(boardscr, 'O');
-    }
-    else if(cell->flags & OBSTACLE)
-    {
-        waddch(boardscr, '#');
-    }
-    else
-    {
-        waddch(boardscr, ' ');
-    }
-}
-
-void game_drawboard(game_t* game)
-{
-
-    if(boardscr == NULL)
-    {
-        boardscr = newwin(NUM_ROWS + 2, NUM_COLUMNS + 2, 0, 0);
-    }
-
-    wclear(boardscr);
-    box(boardscr, 0, 0);
-
-    for(int i = 0; i < NUM_ROWS; i++)
-    {
-        wmove(boardscr, i+1, 1);
-        for(int j = 0; j < NUM_COLUMNS; j++)
-        {
-            drawcell(game, i, j);
-        }
-    }
-
-    wrefresh(boardscr);
 }

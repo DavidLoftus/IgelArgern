@@ -1,5 +1,6 @@
 #include "ui.h"
-
+#include "defs.h"
+#include "game.h"
 #include <string.h>
 #include <stdarg.h>
 
@@ -73,4 +74,78 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
     return resp;
 }
 
+WINDOW* boardscr = NULL;
+
+void game_select_cell(const game_t* game, int* x, int* y)
+{
+    game_drawboard(game);
+
+    int i = 0, j = 0;
+    wmove(boardscr, i+1, j+1);
+
+    for(int c = wgetch(boardscr); c != KEY_ENTER; c = wgetch(boardscr))
+    {
+        switch(c)
+        {
+        case KEY_UP:
+            if(i > 0) i--;
+            wmove(boardscr, i+1, j+1);
+            break;
+        case KEY_DOWN:
+            if(i < NUM_ROWS-1) i++;
+            wmove(boardscr, i+1, j+1);
+            break;
+        case KEY_LEFT:
+            if(j > 0) j--;
+            wmove(boardscr, i+1, j+1);
+            break;
+        case KEY_RIGHT:
+            if(j < NUM_COLUMNS-1) j++;
+            wmove(boardscr, i+1, j+1);
+            break;
+        }
+    }
+}
+
+void drawcell(const game_t* game, int row, int col)
+{
+    const cell_t* cell = &game->board[row][col];
+    if(!cell_is_empty(cell))
+    {
+        wcolor_set(boardscr, cell_peek(cell)->tokenColor, NULL);
+        waddch(boardscr, 'O');
+    }
+    else if(cell->flags & OBSTACLE)
+    {
+        waddch(boardscr, '#');
+    }
+    else
+    {
+        waddch(boardscr, ' ');
+    }
+}
+
+void game_drawboard(const game_t* game)
+{
+
+    if(boardscr == NULL)
+    {
+        boardscr = newwin(NUM_ROWS + 2, NUM_COLUMNS + 2, 0, 0);
+        keypad(boardscr, 1);
+    }
+
+    wclear(boardscr);
+    box(boardscr, 0, 0);
+
+    for(int i = 0; i < NUM_ROWS; i++)
+    {
+        wmove(boardscr, i+1, 1);
+        for(int j = 0; j < NUM_COLUMNS; j++)
+        {
+            drawcell(game, i, j);
+        }
+    }
+
+    wrefresh(boardscr);
+}
 

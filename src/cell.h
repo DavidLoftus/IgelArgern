@@ -2,7 +2,7 @@
 //colors of tokens
 typedef enum
 {
-    RED,
+    RED=1,
     GREEN,
     YELLOW,
     BLUE,
