@@ -29,6 +29,24 @@ char* string_upper(char* str)
 	return str;
 }
 
+const char* choices[] = {
+    "RED",
+    "GREEN",
+    "YELLOW",
+    "BLUE",
+    "MAGENTA",
+    "CYAN"
+};
+
+short choiceColors[] = {
+    COLOR_RED,
+    COLOR_GREEN,
+    COLOR_YELLOW,
+    COLOR_BLUE,
+    COLOR_MAGENTA,
+    COLOR_CYAN,
+};
+
 //This function creates players for the first time
 void init_player(game_t* game, int id)
 {
@@ -45,45 +63,7 @@ void init_player(game_t* game, int id)
     bool valid = false;
     while(!valid)
     {
-        promptf("Choose your color (RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN)", "%s", color);
-        string_upper(color);
-
-        if(strcmp(color, "RED") == 0)
-        {
-            player->playerColor = RED;
-            valid = true;
-        }
-        else if(strcmp(color, "GREEN") == 0)
-        {
-            player->playerColor = GREEN;
-            valid = true;
-        }
-        else if(strcmp(color, "YELLOW") == 0)
-        {
-            player->playerColor = YELLOW;
-            valid = true;
-        }
-        else if(strcmp(color, "BLUE") == 0)
-        {
-            player->playerColor = BLUE;
-            valid = true;
-        }
-        else if(strcmp(color, "MAGENTA") == 0)
-        {
-            player->playerColor = MAGENTA;
-            valid = true;
-        }
-        else if(strcmp(color, "CYAN") == 0)
-        {
-            player->playerColor = CYAN;
-            valid = true;
-        }
-
-        if(!valid)
-        {
-            msgboxf("Invalid colour, try again.");
-            continue;
-        }
+        player->playerColor = RED + selectPrompt("Choose your color.", sizeof(choices)/sizeof(choices[0]), choices, choiceColors);
 
         for(int i = 0; i < id; ++i)
         {
