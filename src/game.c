@@ -300,7 +300,6 @@ void sidestep_move(game_t* game, int playerId)
         {
             if(ask_sidestep(game, row, col))
             {
-                msgboxf("Sidestep successful!");
                 game_drawboard(game);
                 break;
             }
@@ -342,7 +341,7 @@ void forward_move(game_t* game, int playerId, int row)
     while(1)
     {
         while(!game_select_cell(game, &_row, &col));
-        if(_row != row)
+        if(_row == row)
         {
             if(!cell_is_empty(&game->board[row][col]))
             {
@@ -362,7 +361,7 @@ void forward_move(game_t* game, int playerId, int row)
         }
         else
         {
-            msgboxf("Please select a cell on row %d", row);
+            msgboxf("Please select a cell on row %d", row+1);
         }
     }
 
