@@ -114,6 +114,7 @@ void drawcell(const game_t* game, int row, int col)
     {
         wcolor_set(boardscr, cell_peek(cell)->tokenColor, NULL);
         waddch(boardscr, 'O');
+        wcolor_set(boardscr, 0, NULL);
     }
     else if(cell->flags & OBSTACLE)
     {
