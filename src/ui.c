@@ -6,32 +6,36 @@
 
 void wmsgboxf(WINDOW* stdscr, const char* fmt, ...)
 {
+    // Variadic arguments
     va_list lst;
-
     va_start(lst, fmt);
 
+    // Query length of resultant message to find required size of window
     int len = vsnprintf(NULL, 0, fmt, lst);
     int h = 5, w = len + 4;
 
     va_end(lst);
 
+    // Get size of screen
     int maxx = getmaxx(stdscr);
     int maxy = getmaxy(stdscr);
 
-    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2);
+    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2); // Create new window at center of screen
 
-    box(win, 0, 0);
+    box(win, 0, 0); // Surround in box
 
-    wmove(win, 2, 2);
+    wmove(win, 2, 2); // Move to (2,2)
 
+    // Variadic arguments to print message at (2,2)
     va_start(lst, fmt);
     vw_printw(win, fmt, lst);
     va_end(lst);
 
-    wgetch(win);
+    wgetch(win); // Wait for user to press a key
 
-    delwin(win);
+    delwin(win); // Delete window
 
+    // Ensure stdscr gets redrawn
     redrawwin(stdscr);
     wrefresh(stdscr);
 }
