@@ -346,9 +346,9 @@ void forward_move(game_t* game, int playerId, int row)
         while(!game_select_cell(game, &_row, &col));
         if(_row != row)
         {
-            if(!cell_is_empty(&game->board[row][col-1]))
+            if(!cell_is_empty(&game->board[row][col]))
             {
-                if(game_can_move_token(game, row, col-1))
+                if(game_can_move_token(game, row, col))
                 {
                     break;
                 }
@@ -368,7 +368,7 @@ void forward_move(game_t* game, int playerId, int row)
         }
     }
 
-    game_move_token_forward(game, row, col-1);
+    game_move_token_forward(game, row, col);
 
 }
 
