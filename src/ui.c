@@ -93,41 +93,82 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
 
     for(int i = 0; i < nchoices; ++i)
     {
-        len += strlen(choices[i]) + 3;
+        len += strlen(choices[i]) + 3; // Find sum of lengths of each choice (including 3 characters for formatting)
     }
 
-    int h = 5, w = len + 4;
+    // If msg is larger than the choices use it as len
+    int msglen = strlen(msg);
+    if(msglen > len)
+        len = msglen;
 
+    int h = 5, w = len + 4; // Size of window
+
+    // Fetch size of screen
     int maxx = getmaxx(stdscr);
     int maxy = getmaxy(stdscr);
 
-    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2);
+    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2); // Create new window at center of screen
+    keypad(win, true);
 
-    box(win, 0, 0);
+    box(win, 0, 0); // Surround window in box
+
+    int choice = 0; // Current choice
 
     wmove(win, 2, 2);
-
-    int choice = 0;
-
     for(int i = 0; i < nchoices; ++i)
     {
-        if(choice == i)
-        {
-            wattron(win, A_STANDOUT);
-        }
         wcolor_set(win, colors[i], NULL);
-        wprintw(win, "[%s] ", choices[i]);
+        waddstr(win, "[");
 
         if(choice == i)
-        {
+            wattron(win, A_STANDOUT);
+
+        waddstr(win, choices[i]);
+
+        if(choice == i)
             wattroff(win, A_STANDOUT);
-        }
+
+        waddstr(win, "] ");
     }
+    // Set back to default color
     wcolor_set(win, 0, NULL);
     
-    for(int c = wgetch(stdscr); c != KEY_ENTER && c != '\n'; c = wgetch(stdscr))
+    for(int c = wgetch(win); c != KEY_ENTER && c != '\n'; c = wgetch(win))
     {
-        
+        bool flag = false;
+        switch(c)
+        {
+        case KEY_LEFT:
+            choice = (choice + nchoices - 1) % nchoices; // choice - 1 mod nchoices but % doesn't work with negatives
+            flag = true;
+            break;
+        case KEY_RIGHT:
+            choice = (choice + 1) % nchoices;
+            flag = true;
+            break;
+        }
+
+        if(flag)
+        {
+            wmove(win, 2, 2);
+            for(int i = 0; i < nchoices; ++i)
+            {
+                wcolor_set(win, colors[i], NULL);
+                waddstr(win, "[");
+
+                if(choice == i)
+                    wattron(win, A_STANDOUT);
+
+                waddstr(win, choices[i]);
+
+                if(choice == i)
+                    wattroff(win, A_STANDOUT);
+
+                waddstr(win, "] ");
+            }
+            // Set back to default color
+            wcolor_set(win, 0, NULL);
+        }
     }
 
     delwin(win);
