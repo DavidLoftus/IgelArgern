@@ -336,9 +336,7 @@ void forward_move(game_t* game, int playerId, int row)
     }
 
     //prompt message asking user which token to move forward
-    static const char msgFormat[] = "Pick the column of the token you would like to move forward (along row %d)";
-    char msg[sizeof(msgFormat)];
-    sprintf(msg, msgFormat, row+1);
+    msgboxf("Pick the column of the token you would like to move forward (along row %d)", row+1);
 
     int _row, col;
     while(1)
