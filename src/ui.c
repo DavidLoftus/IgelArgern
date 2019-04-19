@@ -89,7 +89,7 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
 
 void drawChoices(WINDOW* win, int nchoices, const char* choices[], short colors[], int choice)
 {
-    wmove(win, 2, 2);
+    wmove(win, 4, 2);
     for(int i = 0; i < nchoices; ++i)
     {
         if(colors)
@@ -124,7 +124,7 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
     if(msglen > len)
         len = msglen;
 
-    int h = 5, w = len + 4; // Size of window
+    int h = 7, w = len + 4; // Size of window
 
     // Fetch size of screen
     int maxx = getmaxx(stdscr);
@@ -134,6 +134,8 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
     keypad(win, true);
 
     box(win, 0, 0); // Surround window in box
+
+    mvwaddstr(win, 2, 2, msg);
 
     int choice = 0; // Current choice
 
