@@ -203,12 +203,13 @@ void game_init(game_t* game)
 bool check_winner(game_t* game, int* pWinner)
 {
     //Check if all 3 tokens of a single color are at the final column
-    int complete[MAX_PLAYERS];
+    int complete[MAX_PLAYERS] = {0};
+
     for (size_t i = 0; i < NUM_ROWS; ++i)
     {
         for(struct stack_node* node = game->board[i][NUM_COLUMNS-1].top; node; node = node->next)
         {
-            if(++complete[node->token->teamId] > 3)
+            if(++complete[node->token->teamId] >= 3)
             {
                 if(pWinner)
                     *pWinner = node->token->teamId;
@@ -279,14 +280,14 @@ void sidestep_move(game_t* game, int playerId)
                 msgboxf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
             }
         }
-
     }
 }
 bool check_move (game_t* game, int row)
 {
     //checks the rows for at least one moveable token
     //If no possible move --> skipping turns.
-    for (size_t i = 0; i < NUM_COLUMNS; ++i){
+    // Dont check NUM_COLUMNS-1 because they can't move forward.
+    for (size_t i = 0; i < NUM_COLUMNS-1; ++i){
         if(!cell_is_empty(&game->board[row][i]) && game_can_move_token(game, row, i))
         {
             return true;
@@ -312,7 +313,8 @@ void forward_move(game_t* game, int playerId, int row)
     while(1)
     {
         while(!game_select_cell(game, &_row, &col));
-        if(_row == row)
+        // col can't be NUM_COLUMNS-1 because that is the finish line
+        if(_row == row && col != NUM_COLUMNS - 1)
         {
             if(!cell_is_empty(&game->board[row][col]))
             {
@@ -332,7 +334,7 @@ void forward_move(game_t* game, int playerId, int row)
         }
         else
         {
-            msgboxf("Please select a cell on row %d", row+1);
+            msgboxf("Please select a cell on row %d (not including final column)", row+1);
         }
     }
 
@@ -358,6 +360,7 @@ void game_run(game_t* game)
 
         playerId = (playerId + 1) % game->numplayers;
     }
+    game_drawboard(game);
     msgboxf("The winner is %s!", game->players[playerId].playerName);
     endwin();
 }
@@ -395,15 +398,38 @@ bool game_can_move_token(const game_t* game, int row, int col)
     {
         // Check all tiles behind this column for tokens.
         // Return false if found otherwise return true
-        for(size_t i = 0; i < col; ++i)
+        for(size_t i = 0; i < NUM_ROWS; ++i)
         {
-
-            if (!cell_is_empty(&game->board[row][col]))
+            for(size_t j = 0; j < col; ++j)
             {
-                return false;
+                if (!cell_is_empty(&game->board[i][j]))
+                {
+                    return false;
+                }
             }
-
         }
     }
     return true;
 }
+
+// TODO: reimplement this in ui.c
+
+/*void game_drawboard(game_t* game)
+{
+    //prints the number of the columns at the end of the board
+    printf("    1   2   3   4   5   6   7   8   9   \n");
+    printf("  /-----------------------------------\\\n");
+    for(int i = 0; i < NUM_ROWS; i++)
+    {
+        printf("%d |", i+1);
+        for(int j = 0; j < NUM_COLUMNS; j++)
+        {
+            cell_print(&game->board[i][j]);
+            putchar('|');
+        }
+        printf("\n");
+        if(i != NUM_ROWS-1)
+            printf("  |-----------------------------------|\n");
+    }
+    printf("  \\-----------------------------------/\n");
+}*/

@@ -80,18 +80,26 @@ char color_char(color col)
  */
 void cell_print(const cell_t* cell)
 {
-    if( cell->flags & OBSTACLE /* && obstacle_is_blocking(cell) */ ) // TODO: only display obstacle char if it is still blocking movement
-    {
-        putchar('#');//'#' if the cell represents an obstacle
-    }
-    else if(cell_is_empty(cell))
-    {
-        putchar(' ');//cell is assigned an empty space otherwise
-    }
-    else
+    if(!cell_is_empty(cell))
     {
         token_t* token = cell->top->token;
-        putchar(color_char(token->tokenColor));
+        char c = color_char(token->tokenColor);
+        if( cell->flags & OBSTACLE )
+        {
+            printf("#%c#", c);
+        }
+        else
+        {
+            printf(" %c ", c);
+        }
+    }
+    else if( cell->flags & OBSTACLE )
+    {
+        printf(" # ");//'#' if the cell represents an obstacle
+    }
+    else 
+    {
+        printf("   "); //cell is assigned an empty space otherwise
     }
 }
 
