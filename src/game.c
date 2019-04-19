@@ -229,7 +229,6 @@ bool check_winner(game_t* game, int* pWinner)
 bool ask_sidestep(game_t* game, int row, int col)
 {
     static const char* choices[] = {"Up", "Down", "Cancel"};
-    msgboxf("test");
     int choice = selectPrompt("Would you like to move up or down?", 3, choices, NULL);
     switch(choice)
     {
