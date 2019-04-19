@@ -69,7 +69,7 @@ void init_player(game_t* game, int id)
         {
             if(game->players[i].playerColor == player->playerColor)
             {
-                msgboxf("Player %d already has that color, try again.", i+1);
+                msgboxf("Player %d already has that color.", i+1);
                 valid = false;
                 break;
             }
@@ -100,7 +100,7 @@ void place_token(game_t* game, int playerId, int tokenId)
 
     player_t* player = &game->players[playerId];
 
-    msgboxf("%s (%c), which row do you want to place your token (1 - 6).", player->playerName, color_char(player->playerColor));
+    msgboxf("%s (%c), where do you want to place your token.", player->playerName, color_char(player->playerColor));
 
     int row, col;
     while(1)
@@ -239,7 +239,7 @@ bool ask_sidestep(game_t* game, int row, int col)
                 game_move_token_up(game, row, col);
                 return true;
             }
-            msgboxf("Can't move that token up, try again: ");
+            msgboxf("Can't move that token up.");
             break;
         case 1:
             if(row != NUM_ROWS-1)
@@ -247,16 +247,17 @@ bool ask_sidestep(game_t* game, int row, int col)
                 game_move_token_down(game, row, col);
                 return true;
             }
-            msgboxf("Can't move that token down, try again: ");
+            msgboxf("Can't move that token down.");
             break;
         default:
-            return false;
+            break;
     }
+    return false;
 }
 
 void sidestep_move(game_t* game, int playerId)
 {
-    msgboxf("Please select the row and column of the token you would like to sidestep (press q to skip).");
+    msgboxf("Please select the token to sidestep (press q to skip).");
     while(1)
     {
         int row,col;
@@ -267,11 +268,11 @@ void sidestep_move(game_t* game, int playerId)
         
         if(cell_is_empty(&game->board[row][col]))
         {
-            msgboxf("The cell is empty, try again: ");
+            msgboxf("That cell is empty.");
         }
         else if(cell_peek(&game->board[row][col])->teamId != playerId)
         {
-            msgboxf("You can only sidestep your own tokens, try again: ");
+            msgboxf("You can only sidestep your own tokens.");
         }
         else
         {
@@ -279,10 +280,6 @@ void sidestep_move(game_t* game, int playerId)
             {
                 game_drawboard(game);
                 break;
-            }
-            else
-            {
-                msgboxf("Please select the row and column of the token you would like to sidestep (or nothing to skip): ");
             }
         }
     }
@@ -312,7 +309,7 @@ void forward_move(game_t* game, int playerId, int row)
     }
 
     //prompt message asking user which token to move forward
-    msgboxf("Pick the column of the token you would like to move forward (along row %d)", row+1);
+    msgboxf("Pick the token (along row %d) to move forward.", row+1);
 
     int _row, col;
     while(1)
@@ -329,7 +326,7 @@ void forward_move(game_t* game, int playerId, int row)
                 }
                 else
                 {
-                    msgboxf("You that token is blocked, try again: ");
+                    msgboxf("You that token is blocked.");
                 }
             }
             else
