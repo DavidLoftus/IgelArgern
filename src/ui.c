@@ -168,36 +168,32 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
     return choice;
 }
 
-// window to draw
-// WINDOW* boardscr = NULL;
-#define boardscr stdscr
-
 bool game_select_cell(const game_t* game, int* x, int* y)
 {
     game_drawboard(game);
 
     int i = 0, j = 0;
-    wmove(boardscr, i+1, j+1);
+    move(2*i+1, 2*j+1);
 
-    for(int c = wgetch(boardscr); c != KEY_ENTER && c != '\n'; c = wgetch(boardscr))
+    for(int c = getch(); c != KEY_ENTER && c != '\n'; c = getch())
     {
         switch(c)
         {
         case KEY_UP:
             if(i > 0) i--;
-            wmove(boardscr, i+1, j+1);
+            move(2*i+1, 2*j+1);
             break;
         case KEY_DOWN:
             if(i < NUM_ROWS-1) i++;
-            wmove(boardscr, i+1, j+1);
+            move(2*i+1, 2*j+1);
             break;
         case KEY_LEFT:
             if(j > 0) j--;
-            wmove(boardscr, i+1, j+1);
+            move(2*i+1, 2*j+1);
             break;
         case KEY_RIGHT:
             if(j < NUM_COLUMNS-1) j++;
-            wmove(boardscr, i+1, j+1);
+            move(2*i+1, 2*j+1);
             break;
         case 'q':
             return false;
@@ -215,43 +211,64 @@ void drawcell(const game_t* game, int row, int col)
 
     if(!cell_is_empty(cell))
     {
-        wcolor_set(boardscr, cell_peek(cell)->tokenColor, NULL);
+        color_set(cell_peek(cell)->tokenColor, NULL);
         if(cell->flags & OBSTACLE)
-            waddch(boardscr, '#');
+            addch('#');
         else
-            waddch(boardscr, 'O');
-        wcolor_set(boardscr, 0, NULL);
+            addch('O');
+        color_set(0, NULL);
     }
     else if(cell->flags & OBSTACLE)
     {
-        waddch(boardscr, '#');
+        addch('#');
     }
     else
     {
-        waddch(boardscr, ' ');
+        addch(' ');
     }
+}
+
+void drawline(chtype start, chtype space, chtype div, chtype end)
+{
+    addch(start);
+    addch(space);
+    for(int i = 0; i < NUM_COLUMNS-1; ++i)
+    {
+        addch(div);
+        addch(space);
+    }
+    addch(end);
 }
 
 void game_drawboard(const game_t* game)
 {
+    clear();
 
-    if(boardscr == NULL)
-    {
-        boardscr = newwin(NUM_ROWS + 2, NUM_COLUMNS + 2, 0, 0);
-    }
-
-    wclear(boardscr);
-    box(boardscr, 0, 0);
+    move(0, 0);
+    drawline(ACS_ULCORNER, ACS_HLINE, ACS_TTEE, ACS_URCORNER);
 
     for(int i = 0; i < NUM_ROWS; i++)
     {
-        wmove(boardscr, i+1, 1);
+        move(2*i+1, 0);
+        addch(ACS_VLINE);
         for(int j = 0; j < NUM_COLUMNS; j++)
         {
             drawcell(game, i, j);
+            addch(ACS_VLINE);
+        }
+        printw("%d", i+1);
+        move(2*(i+1), 0);
+        if(i != NUM_ROWS-1)
+        {
+            drawline(ACS_LTEE, ACS_HLINE, ACS_PLUS, ACS_RTEE);
+        }
+        else
+        {
+            drawline(ACS_LLCORNER, ACS_HLINE, ACS_BTEE, ACS_LRCORNER);
         }
     }
+    mvaddstr(2*NUM_ROWS + 1, 0, " 1 2 3 4 5 6 7 8 9");
 
-    wrefresh(boardscr);
+    refresh();
 }
 
