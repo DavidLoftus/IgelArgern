@@ -119,6 +119,13 @@ void place_token(game_t* game, int playerId, int tokenId)
             continue;
         }
 
+        if(!cell_is_empty(&game->board[row][0]) && cell_peek(&game->board[row][0])->teamId == playerId)
+        {
+            printf("Can't block your own token, try again: ");
+            skipline();
+            continue;
+        }
+
         break;
     }
 
