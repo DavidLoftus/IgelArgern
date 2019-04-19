@@ -99,9 +99,8 @@ void place_token(game_t* game, int playerId, int tokenId)
     }
 
     player_t* player = &game->players[playerId];
-    static const char msgFormat[] = "%s (%c), which row do you want to place your token (1 - 6).";
-    char msg[sizeof(msgFormat) + sizeof(player->playerName)];
-    sprintf(msg, msgFormat, player->playerName, color_char(player->playerColor));
+
+    msgboxf("%s (%c), which row do you want to place your token (1 - 6).", player->playerName, color_char(player->playerColor));
 
     int row, col;
     while(1)
@@ -121,8 +120,7 @@ void place_token(game_t* game, int playerId, int tokenId)
 
         if(!cell_is_empty(&game->board[row][0]) && cell_peek(&game->board[row][0])->teamId == playerId)
         {
-            printf("Can't block your own token, try again: ");
-            skipline();
+            msgboxf("Can't block your own token, try again: ");
             continue;
         }
 
