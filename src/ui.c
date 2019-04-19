@@ -20,7 +20,7 @@ void wmsgboxf(WINDOW* stdscr, const char* fmt, ...)
     int maxx = getmaxx(stdscr);
     int maxy = getmaxy(stdscr);
 
-    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2); // Create new window at center of screen
+    WINDOW* win = newwin(h, w, 0, 2*NUM_COLUMNS+3); // Create new window beside board
 
     box(win, 0, 0); // Surround in box
 
@@ -50,7 +50,7 @@ int wpromptf(WINDOW* stdscr, const char* msg, const char* formatString, ...)
     int maxy = getmaxy(stdscr);
     
     
-    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2); // Create new window at center of screen
+    WINDOW* win = newwin(h, w, 0, 2*NUM_COLUMNS+3); // Create new window beside board
 
     box(win, 0, 0); // Surround window with box
     
@@ -130,7 +130,7 @@ int wselectPrompt(WINDOW* stdscr, const char* msg, int nchoices, const char* cho
     int maxx = getmaxx(stdscr);
     int maxy = getmaxy(stdscr);
 
-    WINDOW* win = newwin(h, w, (maxy-h)/2, (maxx - w)/2); // Create new window at center of screen
+    WINDOW* win = newwin(h, w, 0, 2*NUM_COLUMNS+3); // Create new window beside board
     keypad(win, true);
 
     box(win, 0, 0); // Surround window in box

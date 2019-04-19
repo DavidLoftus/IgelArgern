@@ -183,6 +183,7 @@ void game_init(game_t* game)
     init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
 
     initialize_board(game->board);
+    game_drawboard(game);
 
     while(1)
     {
