@@ -255,8 +255,32 @@ bool ask_sidestep(game_t* game, int row, int col)
     return false;
 }
 
+bool check_sidemove (game_t* game, int player)
+{
+    // Check for atleast one movable token belonging to player
+    for (size_t i = 0; i < NUM_ROWS-1; ++i){
+        for(size_t j = 0; j < NUM_COLUMNS; ++j)
+        {
+            if( !cell_is_empty(&game->board[i][j])
+             && cell_peek(&game->board[i][j])->teamId == player
+             && game_can_move_token(game, i, j))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void sidestep_move(game_t* game, int playerId)
 {
+
+    if(!check_sidemove(game, playerId))
+    {
+        // Skip turn silently if no sidestep available.
+        return;
+    }
+
     msgboxf("Please select the token to sidestep (press q to skip).");
     while(1)
     {
