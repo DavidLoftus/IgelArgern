@@ -1,6 +1,8 @@
 # IgelArgern
 Igel Ärgern game written in C
 
+[![asciicast](https://asciinema.org/a/m3OnSIzUYUArzWyLEtnD8ul6j.svg)](https://asciinema.org/a/m3OnSIzUYUArzWyLEtnD8ul6j)
+
 ## Dependencies
 CMake is used to create build files, make sure you have installed it using the instructions on their website https://cmake.org/download/
 
